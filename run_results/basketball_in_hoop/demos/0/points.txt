@@ -1,0 +1,12 @@
+View 0:
+  Point at the robot's end effector: x=293.40, y=121.20
+  Point at the top center of the basketball: x=193.80, y=463.80
+  Point at the center of the hoop's rim: x=301.20, y=366.00
+  Point to the area directly above the hoop's rim, inside the hoop: x=299.40, y=358.80
+
+View 1:
+  Point at the robot's end effector: x=313.80, y=137.40
+  Point at the top center of the basketball: x=385.20, y=505.80
+  Point at the center of the hoop's rim: x=233.40, y=403.80
+  Point to the area directly above the hoop's rim, inside the hoop: x=252.00, y=383.40
+
