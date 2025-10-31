@@ -1,0 +1,7 @@
+- [x] Create `crossmod/` package skeleton
+- [x] Add config helper and import-compat shim
+- [ ] Move `rendering_helpers.py` → `crossmod/perception/` (keep stub at old path)
+- [ ] Extract ray-casting utils from `utils/RLBenchFunctions.py` → `crossmod/geometry/ray_casting.py`
+- [ ] Split IK/trajectory from `generate_IVK_trajectory.py` → `crossmod/kinematics/inverse_kinematics.py` and `crossmod/planning/trajectory.py`
+- [ ] Add argparse entrypoints for tasks using `crossmod.io.config.Config`
+- [ ] Remove compat shim after imports are updated
