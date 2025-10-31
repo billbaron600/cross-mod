@@ -1,0 +1,314 @@
+
+diff --git a/MIGRATION_NOTES.md b/MIGRATION_NOTES.md
+new file mode 100644
+index 0000000..1111111
+--- /dev/null
++++ b/MIGRATION_NOTES.md
+@@ -0,0 +1,34 @@
++# Migration notes for `refactored-changes`
++
++This patch introduces a **non-breaking** package skeleton (`crossmod/`) and a
++compatibility layer to keep legacy imports working while we move code in stages.
++
++### New layout (initial)
++
++```
++crossmod/
++  agents/               # wrappers for external VLM calls (Molmo, etc.)
++  compat/               # import rewriter to keep old module paths working
++  geometry/             # ray casting, projections, frames
++  io/                   # configs, persistence
++  kinematics/           # IK helpers / solvers
++  perception/           # rendering + image helpers
++  planning/             # trajectories, waypoints, time-param
++```
++
++### Backwards compatibility
++
++Add this near the top of entry scripts (task runners) while refactoring:
++
++```python
++try:
++    from crossmod.compat.rewriter import enable as _enable_crossmod_import_shims
++    _enable_crossmod_import_shims()
++except Exception:
++    pass
++```
++
++### Next steps
++- Move `rendering_helpers.py` → `crossmod/perception/` (leave a tiny stub at the old path that re-exports from the new module).
++- Split `generate_IVK_trajectory.py` into `crossmod/kinematics/inverse_kinematics.py` and `crossmod/planning/trajectory.py`.
++- Replace ad-hoc JSON config usage with `crossmod/io/config.py` helpers.
++- Update task scripts to import from `crossmod.*` directly (remove the shim).
+diff --git a/crossmod/README.md b/crossmod/README.md
+new file mode 100644
+index 0000000..2222222
+--- /dev/null
++++ b/crossmod/README.md
+@@ -0,0 +1,17 @@
++# CrossMod package
++
++This package provides a cleaned module boundary for the project:
++
++- `perception/` — rendering and image utilities
++- `geometry/` — ray casting, projections, transforms
++- `kinematics/` — IK helpers / solvers
++- `planning/` — trajectory generation and time parameterization
++- `io/` — configuration I/O and merge
++- `agents/` — wrappers around external agents (e.g., Molmo)
++- `compat/` — import-compat utilities during the refactor
++
++During the transition period, `crossmod.compat.rewriter.enable()` lets
++legacy imports keep working while files are moved.
+diff --git a/crossmod/__init__.py b/crossmod/__init__.py
+new file mode 100644
+index 0000000..3333333
+--- /dev/null
++++ b/crossmod/__init__.py
+@@ -0,0 +1 @@
++__all__ = []
+diff --git a/crossmod/agents/__init__.py b/crossmod/agents/__init__.py
+new file mode 100644
+index 0000000..4444444
+--- /dev/null
++++ b/crossmod/agents/__init__.py
+@@ -0,0 +1 @@
++__all__ = []
+diff --git a/crossmod/agents/molmo_points.py b/crossmod/agents/molmo_points.py
+new file mode 100644
+index 0000000..5555555
+--- /dev/null
++++ b/crossmod/agents/molmo_points.py
+@@ -0,0 +1,25 @@
++"""Wrapper around the legacy `generate_molmo_points.py`.
++
++This preserves current behavior while we migrate into a package.
++Later we can expose a stable function API here.
++"""
++from __future__ import annotations
++
++try:
++    # Forward to the existing implementation (keeps behavior unchanged)
++    from generate_molmo_points import *  # type: ignore
++except Exception as e:
++    raise ImportError(
++        "Legacy generate_molmo_points.py not found; port in progress."
++    ) from e
+diff --git a/crossmod/compat/__init__.py b/crossmod/compat/__init__.py
+new file mode 100644
+index 0000000..6666666
+--- /dev/null
++++ b/crossmod/compat/__init__.py
+@@ -0,0 +1 @@
++__all__ = []
+diff --git a/crossmod/compat/rewriter.py b/crossmod/compat/rewriter.py
+new file mode 100644
+index 0000000..7777777
+--- /dev/null
++++ b/crossmod/compat/rewriter.py
+@@ -0,0 +1,61 @@
++"""Import rewriter to maintain backward compatibility during refactor.
++
++Usage: call `enable()` once at program startup.
++"""
++from __future__ import annotations
++import importlib
++import sys
++from types import ModuleType
++
++_MAP = {
++    # Legacy path                 → New path (we will move implementations later)
++    'utils.RLBenchFunctions': 'crossmod.geometry.ray_casting',
++    'generate_IVK_trajectory': 'crossmod.kinematics.inverse_kinematics',
++    'rendering_helpers': 'crossmod.perception.rendering_helpers',
++}
++
++class _Proxy(ModuleType):
++    def __init__(self, target: str):
++        super().__init__(target)
++        self._target = target
++        self._mod = None
++    def _load(self):
++        if self._mod is None:
++            self._mod = importlib.import_module(self._target)
++        return self._mod
++    def __getattr__(self, name):
++        return getattr(self._load(), name)
++
++def enable() -> None:
++    """Install import proxies so old `import X` resolves to new modules."""
++    for legacy, new in _MAP.items():
++        sys.modules.setdefault(legacy, _Proxy(new))
+diff --git a/crossmod/geometry/__init__.py b/crossmod/geometry/__init__.py
+new file mode 100644
+index 0000000..8888888
+--- /dev/null
++++ b/crossmod/geometry/__init__.py
+@@ -0,0 +1 @@
++__all__ = []
+diff --git a/crossmod/geometry/ray_casting.py b/crossmod/geometry/ray_casting.py
+new file mode 100644
+index 0000000..9999999
+--- /dev/null
++++ b/crossmod/geometry/ray_casting.py
+@@ -0,0 +1,18 @@
++"""Ray casting utilities (to be populated by moving legacy code).
++
++Move functions from `utils/RLBenchFunctions.py` here:
++- pixel_to_ray(...)
++- multi_view_intersect(...)
++- etc.
++"""
++from __future__ import annotations
++
++class NotYetPorted(Exception):
++    pass
+diff --git a/crossmod/io/__init__.py b/crossmod/io/__init__.py
+new file mode 100644
+index 0000000..aaaaaaa
+--- /dev/null
++++ b/crossmod/io/__init__.py
+@@ -0,0 +1 @@
++__all__ = []
+diff --git a/crossmod/io/config.py b/crossmod/io/config.py
+new file mode 100644
+index 0000000..bbbbbbb
+--- /dev/null
++++ b/crossmod/io/config.py
+@@ -0,0 +1,64 @@
++"""Config utilities: JSON + argparse merge with simple dot-key overrides.
++
++Example:
++    cfg = Config.from_json('slide_block_to_target_initial_demos.json')
++    # or:
++    cfg = Config.from_args(argv=['--config','file.json','--override','seed=0','--override','task.name=slide'])
++"""
++from __future__ import annotations
++import json, argparse, pathlib
++from dataclasses import dataclass, field
++from typing import Any, Dict, Iterable, List
++
++def _set_deep(d: Dict[str, Any], dotted_key: str, value: Any) -> None:
++    keys = dotted_key.split('.')
++    cur = d
++    for k in keys[:-1]:
++        cur = cur.setdefault(k, {})
++    cur[keys[-1]] = value
++
++@dataclass
++class Config:
++    data: Dict[str, Any] = field(default_factory=dict)
++
++    @classmethod
++    def from_json(cls, path: str | pathlib.Path) -> "Config":
++        with open(path, 'r', encoding='utf-8') as f:
++            return cls(json.load(f))
++
++    @classmethod
++    def from_args(cls, argv: List[str] | None = None) -> "Config":
++        p = argparse.ArgumentParser(description='CrossMod run config')
++        p.add_argument('--config', type=str, help='Path to base JSON config')
++        p.add_argument('--override', type=str, action='append', default=[],
++                       help='Repeatable key=value overrides (dot.keys allowed)')
++        ns = p.parse_args(argv)
++        base: Dict[str, Any] = {}
++        if ns.config:
++            base = cls.from_json(ns.config).data
++        for kv in ns.override:
++            if '=' not in kv:
++                continue
++            k, v = kv.split('=', 1)
++            # Best-effort JSON parse for numbers/lists/dicts; fallback to string
++            try:
++                vv = json.loads(v)
++            except Exception:
++                vv = v
++            _set_deep(base, k, vv)
++        return cls(base)
++
++    def get(self, key: str, default: Any=None) -> Any:
++        return self.data.get(key, default)
+diff --git a/crossmod/kinematics/__init__.py b/crossmod/kinematics/__init__.py
+new file mode 100644
+index 0000000..ccccccc
+--- /dev/null
++++ b/crossmod/kinematics/__init__.py
+@@ -0,0 +1 @@
++__all__ = []
+diff --git a/crossmod/kinematics/inverse_kinematics.py b/crossmod/kinematics/inverse_kinematics.py
+new file mode 100644
+index 0000000..ddddddd
+--- /dev/null
++++ b/crossmod/kinematics/inverse_kinematics.py
+@@ -0,0 +1,21 @@
++"""Inverse kinematics helpers (to be extracted from generate_IVK_trajectory.py).
++
++Suggested functions to extract:
++- solve_ik(pose, q0, limits, ...)
++- plan_cartesian_segment(points, ...)
++"""
++from __future__ import annotations
++
++class NotYetPorted(Exception):
++    pass
+diff --git a/crossmod/perception/__init__.py b/crossmod/perception/__init__.py
+new file mode 100644
+index 0000000..eeeeeee
+--- /dev/null
++++ b/crossmod/perception/__init__.py
+@@ -0,0 +1 @@
++__all__ = []
+diff --git a/crossmod/perception/rendering_helpers.py b/crossmod/perception/rendering_helpers.py
+new file mode 100644
+index 0000000..fffffff
+--- /dev/null
++++ b/crossmod/perception/rendering_helpers.py
+@@ -0,0 +1,20 @@
++"""Compatibility shim for `rendering_helpers` during the refactor.
++
++Once the legacy file is moved here, replace this shim with the actual code.
++"""
++from __future__ import annotations
++
++try:
++    from rendering_helpers import *  # type: ignore
++except Exception as e:
++    raise ImportError(
++        "Legacy rendering_helpers.py not found on PYTHONPATH; port in progress."
++    ) from e
+diff --git a/crossmod/planning/__init__.py b/crossmod/planning/__init__.py
+new file mode 100644
+index 0000000..1212121
+--- /dev/null
++++ b/crossmod/planning/__init__.py
+@@ -0,0 +1 @@
++__all__ = []
+diff --git a/crossmod/planning/trajectory.py b/crossmod/planning/trajectory.py
+new file mode 100644
+index 0000000..1313131
+--- /dev/null
++++ b/crossmod/planning/trajectory.py
+@@ -0,0 +1,22 @@
++"""Trajectory building primitives (waypoints, time parameterization).
++
++To be populated by extracting path construction from `generate_IVK_trajectory.py`.
++"""
++from __future__ import annotations
++
++class NotYetPorted(Exception):
++    pass
+diff --git a/dev/PROGRESS.md b/dev/PROGRESS.md
+new file mode 100644
+index 0000000..1414141
+--- /dev/null
++++ b/dev/PROGRESS.md
+@@ -0,0 +1,9 @@
++- [x] Create `crossmod/` package skeleton
++- [x] Add config helper and import-compat shim
++- [ ] Move `rendering_helpers.py` → `crossmod/perception/` (keep stub at old path)
++- [ ] Extract ray-casting utils from `utils/RLBenchFunctions.py` → `crossmod/geometry/ray_casting.py`
++- [ ] Split IK/trajectory from `generate_IVK_trajectory.py` → `crossmod/kinematics/inverse_kinematics.py` and `crossmod/planning/trajectory.py`
++- [ ] Add argparse entrypoints for tasks using `crossmod.io.config.Config`
++- [ ] Remove compat shim after imports are updated
++
++
