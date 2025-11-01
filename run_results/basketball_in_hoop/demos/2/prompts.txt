@@ -1,2 +1,0 @@
-view0_prompts = ["Point at the robot's end effector", "Point at the top center of the basketball", "Point at the center of the hoop's rim", "Point to the area directly above the hoop's rim, inside the hoop"]
-view1_prompts = ["Point at the robot's end effector", "Point at the top center of the basketball", "Point at the center of the hoop's rim", "Point to the area directly above the hoop's rim, inside the hoop"]
