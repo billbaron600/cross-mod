@@ -41,8 +41,7 @@ Reasoning model → task identification and high-level plan; <b>Molmo</b> for pr
 </div>
 
 ### Simulation Rollouts
-<!-- swapped rows: now (insert, rubish, slide) first; then (basketball, close, play) -->
-<div class="grid grid-3 section">
+<div class="grid grid-2 section">
   <video class="video" controls playsinline preload="metadata">
     <source src="assets/video/insert-in-peg.mp4" type="video/mp4">
   </video>
@@ -52,7 +51,6 @@ Reasoning model → task identification and high-level plan; <b>Molmo</b> for pr
   <video class="video" controls playsinline preload="metadata">
     <source src="assets/video/slide-block-to-target.mp4" type="video/mp4">
   </video>
-
   <video class="video" controls playsinline preload="metadata">
     <source src="assets/video/basketball-in-hoop.mp4" type="video/mp4">
   </video>
@@ -65,6 +63,32 @@ Reasoning model → task identification and high-level plan; <b>Molmo</b> for pr
 </div>
 
 
+
+## Results
+
+**Metric:** task success rate (fraction of successful rollouts)
+
+<div class="section">
+
+**Basketball / Peg / Close Drawer / Slide Block**
+
+| Method           | basketball | peg  | close drawer | slide block |
+|------------------|-----------:|-----:|-------------:|------------:|
+| CrossInstruct    | 0.90       | 0.25 | 0.90         | 0.90        |
+| VLM-Reasoning    | 0.00       | 0.20 | 0.45         | 0.20        |
+| Pure RL — SAC    | 0.00       | 0.00 | 0.95         | 0.10        |
+| Pure RL — TD3    | 0.00       | 0.00 | 0.40         | 0.00        |
+
+**Jenga / Lift Block / Rubbish / Push Button**
+
+| Method           | jenga | lift block | rubbish | push button |
+|------------------|------:|-----------:|--------:|------------:|
+| CrossInstruct    | 0.55  | 0.95       | 1.00    | 0.95        |
+| VLM-Reasoning    | 0.00  | 0.00       | 0.00    | 0.30        |
+| Pure RL — SAC    | 0.00  | 0.00       | 0.00    | 0.05        |
+| Pure RL — TD3    | 0.00  | 0.00       | 0.00    | 0.00        |
+
+</div>
 
 
 
