@@ -1,32 +1,39 @@
-# Project Title (ICRA 20XX)
-Authors: Your Name*, Coauthor, Coauthor  
-Affiliations: Dept / Lab, University
+<link rel="stylesheet" href="assets/css/site.css">
 
-[**Paper (PDF)**](paper.md) • [**Code**](../) • [**BibTeX**](paper.md#citation) • [**Results**](results.md)
+# Cross-Mod: Cross-Modal Instructions for Robot Motion Generation
 
-> Short teaser: 1–2 sentences that explain the contribution and headline result.
+[**Code**](../) · [**Paper**](paper.md) · [**Method**](method.md) · [**Results**](results.md)
 
-![teaser](assets/teaser.png)
+![Teaser](assets/img/fig-1-cross-mod.png)
 
-## Abstract
-_Replace with your abstract._
+## 1-Minute Demos
+<div>
 
-## TL;DR
-- One-liner of the method
-- Key numbers and tasks
-- Link to video demo below
+**Basketball in Hoop**  
+<video src="assets/video/basketball-in-hoop.mp4" controls playsinline width="640"></video>
 
-## Video
-<!-- Replace the src with your YouTube embed or a local MP4 in assets/ -->
-<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" 
-title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+**Close Drawer**  
+<video src="assets/video/close-drawer.mp4" controls playsinline width="640"></video>
 
-## Method
-See [method details](method.md) for diagrams, training setup, and ablations.
+**Insert in Peg**  
+<video src="assets/video/insert-in-peg.mp4" controls playsinline width="640"></video>
 
-## Results
-See [results](results.md) for tables, success rates, and qualitative rollouts.
+**Lift Numbered Block**  
+<video src="assets/video/lift-numbered-block.mp4" controls playsinline width="640"></video>
 
----
+**Play Jenga**  
+<video src="assets/video/play-jenga.mp4" controls playsinline width="640"></video>
 
-_Last updated: $(date +"%Y-%m-%d")_
+**Put Rubbish in Bin**  
+<video src="assets/video/rubish-in-bin.mp4" controls playsinline width="640"></video>
+
+**Slide Block to Target**  
+<video src="assets/video/slide-block-to-target.mp4" controls playsinline width="640"></video>
+
+**Sort Cups**  
+<video src="assets/video/sort-cups-video-use.mp4" controls playsinline width="640"></video>
+
+</div>
+
+## Sketching + Pointing
+![Pointing & Sketching](assets/img/pointing-commands-and-sketching.png)
