@@ -2,11 +2,18 @@
 :root {
   --gap: 18px;          /* space inside grids */
   --page-max: 1100px;   /* shared width for all media/sections */
+
+  /* subtle theming */
+  --border: #e5e7eb;
+  --bg-soft: #fafafa;
+  --muted: #6b7280;
 }
 
 html, body {
   font-size: 18px;      /* bigger base font */
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1 { font-size: 2.0rem; margin: 1.2rem auto 0.8rem; max-width: var(--page-max); padding: 0 16px; }
@@ -14,16 +21,19 @@ h2 { font-size: 1.6rem; margin: 2.0rem auto 0.8rem; max-width: var(--page-max); 
 h3 { font-size: 1.25rem; margin: 1.2rem auto 0.6rem; max-width: var(--page-max); padding: 0 16px; }
 
 .section, .hero, .text { max-width: var(--page-max); margin: 0 auto; }
-.text { padding: 0 16px; }
+.text { padding: 0 16px; color: #1f2937; }
 
 /* ---------- Images & hero ---------- */
-img { max-width: 100%; height: auto; display: block; }
-.hero { width: 100%; }
+img, video { max-width: 100%; height: auto; display: block; border-radius: 8px; }
+.hero { width: 100%; border-radius: 10px; }
 
 /* ---------- Grids ---------- */
 .grid { display: grid; gap: var(--gap); padding: 0 16px; }
-.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }  /* force 2 columns for the video grid */
-.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }  /* (still available if needed elsewhere) */
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }  /* 2 columns */
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* Force the Simulation grid to be 2×N on desktop */
+.sim-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 
 /* Vertical stack for the system images (2×1) */
 .stack { display: grid; gap: var(--gap); padding: 0 16px; grid-template-columns: 1fr; }
@@ -32,16 +42,60 @@ img { max-width: 100%; height: auto; display: block; }
 .video { width: 100%; height: auto; display: block; }
 
 /* ---------- Tables (Results) ---------- */
-table { border-collapse: collapse; width: 100%; margin: 12px auto; }
-th, td { border: 1px solid #e0e0e0; padding: 8px 10px; text-align: right; }
-th:first-child, td:first-child { text-align: left; }
-thead th { font-weight: 700; }
+.table-wrap { overflow-x: auto; padding: 0 16px; margin: 12px 0; }
+table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 0; }
 .section table { max-width: var(--page-max); }
+
+table.metrics {
+  min-width: 640px;               /* keep columns readable */
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;               /* clip to rounded corners */
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+table.metrics caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 8px 12px 6px;
+}
+
+table.metrics thead th {
+  background: var(--bg-soft);
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+}
+
+table.metrics th, table.metrics td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: right;               /* numbers right-aligned by default */
+  white-space: nowrap;
+}
+
+table.metrics th:first-child,
+table.metrics td:first-child {
+  text-align: left;                /* method column */
+  width: 38%;
+}
+
+table.metrics tbody tr:nth-child(odd) td {
+  background: #fcfcfc;             /* soft zebra striping */
+}
+
+table.metrics tbody tr:last-child td {
+  border-bottom: 0;
+}
 
 /* ---------- Small screens ---------- */
 @media (max-width: 720px) {
   :root { --gap: 12px; --page-max: 95vw; }
   h1, h2, h3 { padding: 0 10px; }
   .grid, .stack, .text { padding: 0 10px; }
-  .grid-2 { grid-template-columns: 1fr; }  /* stack videos on narrow screens */
+
+  /* stack grids on narrow screens */
+  .grid-2, .sim-grid { grid-template-columns: 1fr !important; }
 }
