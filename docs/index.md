@@ -37,3 +37,7 @@
 
 ## Sketching + Pointing
 ![Pointing & Sketching](assets/img/pointing-commands-and-sketching.png)
+
+
+
+
