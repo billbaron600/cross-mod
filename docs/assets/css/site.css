@@ -1,34 +1,47 @@
-/* Layout scale */
-:root { --gap: 16px; --page-max: 1100px; }
-
-/* Constrain every section to the same width and center it */
-.section, .hero, .text {
-  max-width: var(--page-max);
-  margin: 0 auto;
+/* ---------- Typography & spacing ---------- */
+:root {
+  --gap: 18px;          /* space inside grids */
+  --page-max: 1100px;   /* shared width for all media/sections */
 }
 
-/* Headings are outside HTML blocks, so they’ll render correctly */
+html, body {
+  font-size: 18px;      /* bigger base font */
+  line-height: 1.6;
+}
 
-/* Images + hero */
+h1 { font-size: 2.0rem; margin: 1.2rem auto 0.8rem; max-width: var(--page-max); padding: 0 16px; }
+h2 { font-size: 1.6rem; margin: 2.0rem auto 0.8rem; max-width: var(--page-max); padding: 0 16px; }
+h3 { font-size: 1.25rem; margin: 1.2rem auto 0.6rem; max-width: var(--page-max); padding: 0 16px; }
+
+.section, .hero, .text { max-width: var(--page-max); margin: 0 auto; }
+.text { padding: 0 16px; }
+
+/* ---------- Images & hero ---------- */
 img { max-width: 100%; height: auto; display: block; }
 .hero { width: 100%; }
 
-/* Text blocks that need the same width as media */
-.text { padding: 0 16px; line-height: 1.5; }
-
-/* Grids */
+/* ---------- Grids ---------- */
 .grid { display: grid; gap: var(--gap); padding: 0 16px; }
-.grid-2 { grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); }
-.grid-3 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }  /* force 2 columns for the video grid */
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }  /* (still available if needed elsewhere) */
 
-/* Vertical stack (2×1) for the two system images */
+/* Vertical stack for the system images (2×1) */
 .stack { display: grid; gap: var(--gap); padding: 0 16px; grid-template-columns: 1fr; }
 
-/* Videos */
+/* ---------- Video ---------- */
 .video { width: 100%; height: auto; display: block; }
 
-/* Small screens */
-@media (max-width: 640px) {
+/* ---------- Tables (Results) ---------- */
+table { border-collapse: collapse; width: 100%; margin: 12px auto; }
+th, td { border: 1px solid #e0e0e0; padding: 8px 10px; text-align: right; }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-weight: 700; }
+.section table { max-width: var(--page-max); }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 720px) {
   :root { --gap: 12px; --page-max: 95vw; }
-  .grid, .stack, .text { padding: 0 8px; }
+  h1, h2, h3 { padding: 0 10px; }
+  .grid, .stack, .text { padding: 0 10px; }
+  .grid-2 { grid-template-columns: 1fr; }  /* stack videos on narrow screens */
 }
