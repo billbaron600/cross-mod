@@ -1,26 +1,34 @@
-/* --- Base --- */
-:root { --gap: 16px; --page-max: 1200px; }
-.page { margin: 0 auto; padding: 16px; max-width: var(--page-max); }
-img { max-width: 100%; height: auto; display: block; }
+/* Layout scale */
+:root { --gap: 16px; --page-max: 1100px; }
 
-/* Full-bleed hero image (Fig.1) */
-.full-bleed {
-  width: 100vw;
-  margin-left: 50%;
-  transform: translateX(-50%);
+/* Constrain every section to the same width and center it */
+.section, .hero, .text {
+  max-width: var(--page-max);
+  margin: 0 auto;
 }
+
+/* Headings are outside HTML blocks, so they’ll render correctly */
+
+/* Images + hero */
+img { max-width: 100%; height: auto; display: block; }
 .hero { width: 100%; }
 
+/* Text blocks that need the same width as media */
+.text { padding: 0 16px; line-height: 1.5; }
+
 /* Grids */
-.grid { display: grid; gap: var(--gap); }
-.grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-.grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.grid { display: grid; gap: var(--gap); padding: 0 16px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+/* Vertical stack (2×1) for the two system images */
+.stack { display: grid; gap: var(--gap); padding: 0 16px; grid-template-columns: 1fr; }
 
 /* Videos */
 .video { width: 100%; height: auto; display: block; }
 
-/* Optional: tighten spacing on small screens */
+/* Small screens */
 @media (max-width: 640px) {
-  :root { --gap: 12px; }
-  .page { padding: 12px; }
+  :root { --gap: 12px; --page-max: 95vw; }
+  .grid, .stack, .text { padding: 0 8px; }
 }
