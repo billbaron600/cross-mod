@@ -1,5 +1,26 @@
-video { display:block; margin: 12px 0; max-width: 100%; height: auto; }
-img { max-width: 100%; height: auto; }
-div { display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-table { border-collapse: collapse; }
-td, th { border: 1px solid #ddd; padding: 6px; }
+/* --- Base --- */
+:root { --gap: 16px; --page-max: 1200px; }
+.page { margin: 0 auto; padding: 16px; max-width: var(--page-max); }
+img { max-width: 100%; height: auto; display: block; }
+
+/* Full-bleed hero image (Fig.1) */
+.full-bleed {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+.hero { width: 100%; }
+
+/* Grids */
+.grid { display: grid; gap: var(--gap); }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+/* Videos */
+.video { width: 100%; height: auto; display: block; }
+
+/* Optional: tighten spacing on small screens */
+@media (max-width: 640px) {
+  :root { --gap: 12px; }
+  .page { padding: 12px; }
+}
