@@ -8,7 +8,7 @@
   <!-- Put your author names here (links optional) -->
   <p class="authors">
     <!-- Example: <a href="#">Author One</a>, <a href="#">Author Two</a> -->
-    Author Names
+    William Baron, Xiaoxiang Dong, Matthew Johnson-Roberson, Weiming Zhi
   </p>
 
   <p class="affil">The Robotics Institute, Carnegie Mellon University</p>
@@ -19,7 +19,7 @@
   </div>
 </header>
 
-# Cross-Mod: Cross-Modal Instructions for Robot Motion Generation
+# Instructing Reasoning Models via Diagrammtic Sketches
 
 <!-- Fig. 1: same width as other sections -->
 <img src="assets/img/fig-1-cross-mod.png" alt="Figure 1: Cross-Mod teaser" class="hero" loading="lazy">
