@@ -9,10 +9,10 @@
 
 ### Diagrammatic Sketches Over Camera Views
 <p class="text">
-We use human <em>cross‑modal instructions</em>—rough freehand sketches plus short textual notes—drawn directly over a pair of calibrated camera views of the scene. From these scribbles, the system first generates <strong>2D end‑effector trajectories</strong> in each view and then <strong>lifts them into 3D</strong>.
+We use human <em>cross‑modal instructions</em>—rough freehand sketches plus short textual notes—drawn directly over a pair of calibrated camera views. From these scribbles, the system first generates <strong>2D end‑effector trajectories</strong> in each view and then <strong>lifts them into 3D</strong>.
 </p>
 <p class="text">
-Concretely, each per‑view 2D curve is treated as a time‑indexed Gaussian “tube” in pixel space. Rays are cast through the pixels of both cameras (pinhole model) and their intersections define a distribution over feasible 3D waypoints at each time step. Taking the mean yields an executable centerline; sampling the distribution yields diverse rollouts for downstream learning. This multi‑view lifting gives us a coherent 3D path while preserving the shape implied by the sketch and avoiding collisions indicated by the user’s markings. See the <em>multi‑view lifting via ray casting</em> description and Fig. 4 in the paper for details. :contentReference[oaicite:1]{index=1}
+Each per‑view 2D curve is treated as a time‑indexed Gaussian corridor in pixel space. Rays are cast through pixels in both cameras and intersected to localize a distribution of feasible <strong>3D waypoints</strong> per time step. The mean yields an executable centerline; sampling the distribution yields diverse rollouts for downstream learning. This multi‑view lifting preserves the sketch’s shape while respecting collision hints the user draws.
 </p>
 
 <div class="grid grid-2 section">
@@ -22,10 +22,10 @@ Concretely, each per‑view 2D curve is treated as a time‑indexed Gaussian “
 
 ### Task Identification, Precision Point Classification, Sketching, and Action Commands
 <p class="text">
-Our pipeline uses a <strong>hierarchical precision coupling</strong> between two vision–language models. A large <em>reasoning VLM</em> performs task identification and high‑level planning, proposing semantic <em>keypoint descriptors</em> (e.g., “button center,” “basketball rim edge”) and drafting the rough motion sketch. A smaller, fine‑tuned <strong>Molmo</strong> pointing model then converts each descriptor into precise pixel coordinates in both views. These precise keypoints are fed back into the reasoning context, which refines the per‑view trajectory and emits <strong>3D waypoints + end‑effector orientations + gripper open/close</strong> commands that form an executable trajectory. :contentReference[oaicite:2]{index=2}
+Our pipeline couples a <strong>reasoning VLM</strong> with a fine‑tuned <strong>Molmo</strong> pointing model. The reasoning model performs task identification and high‑level planning, proposes semantic <em>keypoint descriptors</em> (e.g., “button center,” “rim edge”), and drafts the rough motion sketch. The pointing model converts each descriptor into precise pixel coordinates in both views. These precise keypoints are fed back to the reasoning model, which refines the per‑view sketch and outputs <strong>3D waypoints + end‑effector orientations + gripper open/close</strong> commands.
 </p>
 <p class="text">
-Finally, the 3D mean trajectory can be tracked directly, or we can sample multiple trajectories from the learned distribution to <strong>warm‑start reinforcement learning</strong> (TD3+BC), improving robustness while remaining faithful to the sketch intent (see §IV‑C and Fig. 12 for the RL initialization effect). :contentReference[oaicite:3]{index=3}
+The 3D mean trajectory can be executed directly, or we can <strong>sample</strong> from the learned distribution to warm‑start reinforcement learning (TD3+BC), improving robustness while staying faithful to the sketched intent.
 </p>
 
 <!-- Stack the two images vertically (2×1) -->
@@ -69,6 +69,18 @@ Finally, the 3D mean trajectory can be tracked directly, or we can sample multip
   </video>
 </div>
 
+## Ablations & Analyses
+
+<p class="text">
+<strong>1) Hierarchical precision coupling (Reasoning VLM + Molmo) vs. Reasoning‑only:</strong> Removing the pointing model (reasoning‑only) often yields small spatial misalignments that cause failures on precision tasks (e.g., basketball, button, Jenga). With coupling, precise keypoints anchor the sketch and stabilize the full 3D trajectory generation.
+</p>
+<p class="text">
+<strong>2) Cross‑modal trajectories as RL initialization:</strong> Sampling from the trajectory distribution provides diverse, semantically correct demonstrations. TD3+BC initialized with these samples converges fast on difficult tasks such as Jenga and Peg, while training from scratch struggles.
+</p>
+<p class="text">
+<strong>3) Multi‑view lifting via ray‑casting:</strong> Casting rays through both views reduces depth ambiguity, producing 3D waypoints that respect the sketched geometry across views. The mean can be executed directly, while the distribution captures uncertainty for robust rollouts.
+</p>
+
 ## Results
 
 **Metric:** task success rate (fraction of successful rollouts)
@@ -76,7 +88,7 @@ Finally, the 3D mean trajectory can be tracked directly, or we can sample multip
 <div class="section">
   <div class="table-wrap">
     <table class="metrics">
-      <caption>Basketball / Peg / Close Drawer / Slide Block (RLBench)</caption>
+      <caption>Simulation Results on RLBench (single merged table)</caption>
       <thead>
         <tr>
           <th>Method</th>
@@ -84,47 +96,6 @@ Finally, the 3D mean trajectory can be tracked directly, or we can sample multip
           <th>peg</th>
           <th>close drawer</th>
           <th>slide block</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>CrossInstruct</td>
-          <td>0.90</td>
-          <td>0.25</td>
-          <td>0.90</td>
-          <td>0.90</td>
-        </tr>
-        <tr>
-          <td>VLM‑Reasoning</td>
-          <td>0.00</td>
-          <td>0.20</td>
-          <td>0.45</td>
-          <td>0.20</td>
-        </tr>
-        <tr>
-          <td>Pure RL — SAC</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.95</td>
-          <td>0.10</td>
-        </tr>
-        <tr>
-          <td>Pure RL — TD3</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.40</td>
-          <td>0.00</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="table-wrap">
-    <table class="metrics">
-      <caption>Jenga / Lift Block / Rubbish / Push Button (RLBench)</caption>
-      <thead>
-        <tr>
-          <th>Method</th>
           <th>jenga</th>
           <th>lift block</th>
           <th>rubbish</th>
@@ -134,6 +105,10 @@ Finally, the 3D mean trajectory can be tracked directly, or we can sample multip
       <tbody>
         <tr>
           <td>CrossInstruct</td>
+          <td>0.90</td>
+          <td>0.25</td>
+          <td>0.90</td>
+          <td>0.90</td>
           <td>0.55</td>
           <td>0.95</td>
           <td>1.00</td>
@@ -141,6 +116,10 @@ Finally, the 3D mean trajectory can be tracked directly, or we can sample multip
         </tr>
         <tr>
           <td>VLM‑Reasoning</td>
+          <td>0.00</td>
+          <td>0.20</td>
+          <td>0.45</td>
+          <td>0.20</td>
           <td>0.00</td>
           <td>0.00</td>
           <td>0.00</td>
@@ -150,11 +129,19 @@ Finally, the 3D mean trajectory can be tracked directly, or we can sample multip
           <td>Pure RL — SAC</td>
           <td>0.00</td>
           <td>0.00</td>
+          <td>0.95</td>
+          <td>0.10</td>
+          <td>0.00</td>
+          <td>0.00</td>
           <td>0.00</td>
           <td>0.05</td>
         </tr>
         <tr>
           <td>Pure RL — TD3</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.40</td>
+          <td>0.00</td>
           <td>0.00</td>
           <td>0.00</td>
           <td>0.00</td>
@@ -165,9 +152,10 @@ Finally, the 3D mean trajectory can be tracked directly, or we can sample multip
   </div>
 
   <p class="text">
-  CrossInstruct’s hierarchical precision coupling and multi‑view lifting drive strong out‑of‑the‑box performance, especially on precision tasks like <em>basketball‑in‑hoop</em> and <em>push button</em>, and the generated trajectory distribution provides effective initialization for TD3+BC in harder settings (see Table I / Figs. 8–12 in the paper). :contentReference[oaicite:4]{index=4}
+    CrossInstruct’s hierarchical precision coupling and multi‑view lifting drive strong out‑of‑the‑box performance on precision tasks, while the trajectory distribution provides an effective initialization for TD3+BC on hard rollouts.
   </p>
 </div>
+
 
 
 
