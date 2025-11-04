@@ -17,10 +17,38 @@ html, body {
   background: #fff;
 }
 
+/* ---------- Top bar (new) ---------- */
+.topbar {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.topbar .brand {
+  font-weight: 700;
+  text-decoration: none;
+  color: #111;
+}
+.topbar .links {
+  display: flex;
+  gap: 16px;
+}
+.topbar .links a {
+  text-decoration: none;
+  color: #1f2937;
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+.topbar .links a:hover { background: var(--bg-soft); }
+
 /* Headings: larger + more whitespace to clearly separate sections */
 h1 {
   font-size: 2.6rem;
-  margin: 1.6rem auto 1.0rem;
+  margin: 1.0rem auto 1.0rem;
   max-width: var(--page-max);
   padding: 0 16px;
 }
