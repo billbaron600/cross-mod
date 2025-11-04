@@ -187,3 +187,20 @@ table.metrics tbody tr:last-child td { border-bottom: 0; }
   h3 { font-size: 1.25rem; }
 }
 
+/* --- Top bar (Code / Paper links) --- */
+.topbar{
+  max-width: var(--page-max);
+  margin: 8px auto 12px;   /* bottom margin creates space before the H1 */
+  padding: 8px 16px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.topbar .brand{
+  font-weight:700; text-decoration:none; color:#111;
+}
+.topbar .links{ display:flex; gap:12px; }
+.topbar .links a{
+  text-decoration:none; color:#1f2937;
+  border:1px solid #e5e7eb; padding:6px 10px; border-radius:999px;
+}
+.topbar .links a:hover{ background:#fafafa; }
+
