@@ -1,13 +1,22 @@
 <link rel="stylesheet" href="assets/css/site.css">
 
-<!-- Simple top bar with links to code & paper -->
-<nav class="topbar">
-  <a class="brand" href="/">Cross-Mod</a>
-  <div class="links">
-    <a href="https://github.com/billbaron600/cross-mod/tree/main" target="_blank" rel="noopener">Code</a>
-    <a href="https://arxiv.org/abs/2509.21107" target="_blank" rel="noopener">Paper</a>
+<!-- Centered paper header -->
+<header class="hero-header">
+  <h1 class="title">Cross-Mod: Cross-Modal Instructions for Robot Motion Generation</h1>
+
+  <!-- Put your author names here (links optional) -->
+  <p class="authors">
+    <!-- Example: <a href="#">Author One</a>, <a href="#">Author Two</a> -->
+    Author Names
+  </p>
+
+  <p class="affil">The Robotics Institute, Carnegie Mellon University</p>
+
+  <div class="cta">
+    <a class="btn" href="https://arxiv.org/abs/2509.21107" target="_blank" rel="noopener">Paper</a>
+    <a class="btn" href="https://github.com/billbaron600/cross-mod/tree/main" target="_blank" rel="noopener">Code</a>
   </div>
-</nav>
+</header>
 
 # Cross-Mod: Cross-Modal Instructions for Robot Motion Generation
 
