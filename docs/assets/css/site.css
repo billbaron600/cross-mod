@@ -260,6 +260,12 @@ table.metrics tbody tr:last-child td { border-bottom: 0; }
   background: var(--bg-soft);
 }
 
+/* Narrow figures just for the cognition examples */
+figure.section.narrow img { max-width: 680px; width: 100%; margin: 0 auto; }
+@media (max-width: 720px) {
+  figure.section.narrow img { max-width: 100%; }
+}
+
 /* Ensure headings and body copy share the same left/right edge */
 .page { max-width: var(--page-max); margin: 0 auto; padding: 0 16px; }
 .page h1, .page h2, .page h3, .page p, .page ul, .page ol, .page figure { margin-left: 0; margin-right: 0; }
