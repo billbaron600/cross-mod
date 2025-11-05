@@ -68,15 +68,18 @@ Early in skill acquisition, S1-style controllers can systematically mis-map perc
 
 **Formalized examples:**
 
-<figure class="section">
+**Formalized examples:**
+
+<figure class="section narrow">
   <img src="assets/img/fulcrum-effect.png" alt="Laparoscopic fulcrum effect" loading="lazy">
   <figcaption><strong>Laparoscopic “fulcrum effect”.</strong> Because the tool pivots at the trocar, handle motion is inverted with respect to tip motion in Cartesian space. Habitual S1 mappings (“move toward the target”) create sign-flipped corrections and oscillation. An S2 controller applies the rule “move handle opposite desired tip displacement,” yielding slower but correct behavior; with practice, a new S1 policy is cached.</figcaption>
 </figure>
 
-<figure class="section">
+<figure class="section narrow">
   <img src="assets/img/split-belt.png" alt="Split-belt treadmill adaptation" loading="lazy">
   <figcaption><strong>Split-belt adaptation.</strong> With asymmetric belt speeds, the symmetric-gait prior (S1) fails. S2 enforces asymmetric step timing; later, automaticity returns with a retuned S1 controller.</figcaption>
 </figure>
+
 
 **Relevance to method choice.**  
 Classical pipelines often rely on motion planners/collision-avoidance or hand-engineered grasp/waypoint generators; learned **VLA** pipelines place a monolithic action policy between S2-style reasoning and actuation. Both add a dependency that can entangle S2 intent with S1 behaviors. Our approach keeps S2 in the driver’s seat initially—explicit keypoints and **sketched paths** → **3D trajectories**—minimizing reliance on traditional stacks and avoiding the “S2 must always route through S1” failure mode seen when a reasoner can only act via a VLA. The result is a cleaner S2→actuation interface that later supports distillation if desired. (See §IV–V for the precision-coupled lifting and empirical results.) :contentReference[oaicite:2]{index=2}
