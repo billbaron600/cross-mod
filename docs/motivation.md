@@ -16,34 +16,68 @@
 
 # Motivation
 
-## Dual‑Process Theory as a Design Lens
+## Dual-process cognition: formal view
 
-For decades, dual‑process theory has characterized human cognition as an interaction between fast, automatic heuristics (**System 1**) and slower, deliberate reasoning (**System 2**). In modern robotics/AI vernacular, large reasoning models—LLMs/VLMs—are often described as “System‑2 thinkers,” planning explicitly and composing symbolic steps before acting (e.g., work inspired by Noam Brown’s “System 2” framing; robotics systems like VoxPoser, HAMSTER, Hi‑Robot, and MOKA that use reasoning models for high‑level planning).
+**System 1 (S1)** denotes automatic, rapid, parallel, and associative processing: effortless, cue-driven, high-throughput, but susceptible to biases and context-dependent errors.  
+**System 2 (S2)** denotes controlled, slower, sequential, and rule-based processing: effortful, working-memory-limited, but capable of explicit reasoning, analytic decomposition, and reduced error under novel mappings. A classic treatment is Kahneman’s overview of bounded rationality and dual processing ([American Psychologist, 2003](https://doi.org/10.1037/0003-066X.58.9.697)).  
+In contemporary ML, large **reasoning** models are often framed as S2-like, with explicit planning and tool-use; see, e.g., Noam Brown discussing S2-style reasoning and training signals on *Training Data* ([podcast link](https://sequoiacap.com/podcast/training-data-noam-brown/)).
 
-Most existing pipelines hand off from this high‑level planner to fairly **traditional actuation layers**:
-- **Planner/value‑field → controller** (e.g., VoxPoser generates 3D value maps for MPC),
-- **Grasp/waypoint templates + IK sampling** (e.g., MOKA),
-- **RL policies** trained end‑to‑end (e.g., HAMSTER),
-- **Vision‑Language‑Action** policies (e.g., Hi‑Robot).
+<figure class="section">
+  <img src="assets/img/system-cog.png" alt="Contrasting attributes of System 1 vs System 2" loading="lazy">
+</figure>
 
-These are powerful, but they insert a **thick interface** between reasoning and motion: the planner reasons abstractly, while the controller or learned policy attempts to realize that intent.
+## How this maps to robot instruction-following
 
-### Our premise
-**Give the System‑2 reasoner a more direct path to actuation.** In CrossInstruct, the reasoning VLM:
-1) infers the task and decomposes it into steps,  
-2) proposes *semantic high‑precision points* (descriptors),  
-3) issues **pointing commands** to a fine‑tuned model (Molmo) for pixel‑accurate keypoints in each calibrated view,  
-4) uses those keypoints as scaffolds to **sketch per‑view trajectories**,  
-5) **lifts the sketches into 3D** via multi‑view geometry, and  
-6) outputs **end‑effector orientations and gripper open/close** along the 3D path, which a lightweight planner tracks (IK with singularity mitigation, no collision optimization).  
-This makes the reasoner part of the *actuation loop*, not just the task planner. (See the framework and examples in **Fig. 3–4** of the paper for the precision‑coupled pipeline and 2D→3D lifting.) :contentReference[oaicite:1]{index=1}
+Reasoning models (S2-like) excel at:  
+1) interpreting **sketched demonstrations**—curves, arrows, constraints drawn over calibrated views that implicitly encode end-effector path shape and contact intent;  
+2) **task decomposition**—identifying sub-goals, ordering, and geometric preconditions.
 
-### Why suppress “System 1” early?
-In many human sensorimotor settings, the automatic controller (S1) must be **actively suppressed** so a rule‑based controller (S2) can succeed, before later re‑automatization:
+However, converting those abstractions into motion requires **pixel-level grounding** at high precision (button centerlines, rim edges, peg axes). Rather than routing all decisions through a monolithic action policy, we treat a **smaller VLM** as an **auxiliary precision tool** that the reasoner can call to resolve keypoints exactly in each view.
 
-- **Laparoscopic fulcrum effect (manipulation).** Handle‑left → tip‑right; S1 “move hand toward target” amplifies error. S2 must apply the explicit inversion rule until it’s proceduralized.
-- **“Backwards bicycle” / reversed steering (locomotion).** Reflexive counter‑steer becomes catastrophic; S2 takes over with slow rule‑based corrections until a new S1 policy is cached.
-- **Mirror‑drawing / anti‑reach (manipulation).** S1 chases visual error; S2 uses symbolic re‑aiming (“aim left by θ”) to be slow‑but‑correct.
-- **Split‑belt treadmill (locomotion).** S2 imposes an asymmetric gait before automaticity returns.
+### Our premise: a direct S2 → actuation representation
 
-**Robotics rhyme:** early in deployment, let S2 (the reasoner) output explicit **waypoints/orientations/gripper commands** that are tracked directly; later, those rollouts can **distill** into a faster S1‑like policy (RL fine‑tuning/BC), matching how skills re‑automatize in humans. CrossInstruct’s distribution over trajectories is expressly designed to seed TD3+BC for that distillation. (See §IV‑C and §V‑F.) :contentReference[oaicite:2]{index=2}
+We “let S2 speak in the language of motion.” Concretely, the reasoning model:
+- infers the task and decomposes it into steps,
+- proposes semantic **precision descriptors** for high-value points,
+- calls a **small pointing VLM** to localize those descriptors as **pixel-accurate keypoints** in each calibrated view,
+- **sketches per-view end-effector paths** that connect these keypoints,
+- **lifts** the paired 2D sketches into a **time-indexed 3D trajectory distribution**, and
+- outputs the **full end-effector command sequence**: position \(x_t\), orientation \(R_t\), and gripper action \(g_t\).
+
+This pipeline makes the reasoner part of the *actuation representation* itself—not just the high-level planner. Having the reasoner **draw the path between precision points** bakes in *implicit collision shaping* and *trajectory smoothness* without relying on semantic segmentation, inverse-geometry grasp solvers, MPC-style controllers, or other traditional stacks.
+
+### Why multi-view RGB suits this formulation
+
+Most multimodal reasoning models are trained predominantly on **RGB imagery**, so sketched RGB inputs stay close to their pretraining distribution. Our method uses **two calibrated RGB views**; multi-view lifting reduces depth ambiguity and stabilizes 3D waypoint estimation compared with a single view (even if that single view has noisy/scarce depth), while keeping inputs in the RGB regime where reasoning models are strongest. (See the multi-view lifting and hierarchical coupling details and diagrams in the paper’s method section and Figures 3–5.) :contentReference[oaicite:0]{index=0}
+
+
+## Why suppress System 1 early?
+
+Early in skill acquisition, S1-style controllers can systematically mis-map perception to action under **inverted** or **non-intuitive** sensorimotor transforms. An S2 policy that follows explicit rules avoids these traps; only after repetition does a robust S1-like controller re-emerge. This mirrors our design choice to have the reasoning model specify **explicit trajectories** at first, rather than delegating immediately to a VLA.
+
+**Formalized examples:**
+
+<figure class="section">
+  <img src="assets/img/fulcrum-effect.png" alt="Laparoscopic fulcrum effect" loading="lazy">
+  <figcaption><strong>Laparoscopic “fulcrum effect”.</strong> Because the tool pivots at the trocar, handle motion is inverted with respect to tip motion in Cartesian space. Habitual S1 mappings (“move toward the target”) create sign-flipped corrections and oscillation. An S2 controller applies the rule “move handle opposite desired tip displacement,” yielding slower but correct behavior; with practice, a new S1 policy is cached.</figcaption>
+</figure>
+
+<figure class="section">
+  <img src="assets/img/backwards-bicycle.png" alt="Backwards bicycle / reversed steering" loading="lazy">
+  <figcaption><strong>Backwards bicycle (reversed steering).</strong> Reflexive counter-steer (S1) becomes destabilizing. An S2 policy imposes deliberate, rule-based corrections until a new automatic controller is internalized; switching back reveals distinct cached policies.</figcaption>
+</figure>
+
+<figure class="section">
+  <img src="assets/img/mirror-drawing.png" alt="Mirror drawing / anti-reach" loading="lazy">
+  <figcaption><strong>Mirror-drawing / anti-reach.</strong> Under visuomotor inversion, S1 “chase-the-error” loops overshoot. S2 uses symbolic re-aiming (“aim left by θ”), trading speed for accuracy until implicit remapping forms.</figcaption>
+</figure>
+
+<figure class="section">
+  <img src="assets/img/split-belt.png" alt="Split-belt treadmill adaptation" loading="lazy">
+  <figcaption><strong>Split-belt adaptation.</strong> With asymmetric belt speeds, the symmetric-gait prior (S1) fails. S2 enforces asymmetric step timing; later, automaticity returns with a retuned S1 controller.</figcaption>
+</figure>
+
+**Relevance to method choice.**  
+Classical pipelines often rely on motion planners/collision-avoidance or hand-engineered grasp/waypoint generators; learned **VLA** pipelines place a monolithic action policy between S2-style reasoning and actuation. Both add a dependency that can entangle S2 intent with S1 behaviors. Our approach keeps S2 in the driver’s seat initially—explicit keypoints and **sketched paths** → **3D trajectories**—minimizing reliance on traditional stacks and avoiding the “S2 must always route through S1” failure mode seen when a reasoner can only act via a VLA. The result is a cleaner S2→actuation interface that later supports distillation if desired. (See §IV–V for the precision-coupled lifting and empirical results.) :contentReference[oaicite:2]{index=2}
+
+
