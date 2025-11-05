@@ -63,16 +63,6 @@ Early in skill acquisition, S1-style controllers can systematically mis-map perc
 </figure>
 
 <figure class="section">
-  <img src="assets/img/backwards-bicycle.png" alt="Backwards bicycle / reversed steering" loading="lazy">
-  <figcaption><strong>Backwards bicycle (reversed steering).</strong> Reflexive counter-steer (S1) becomes destabilizing. An S2 policy imposes deliberate, rule-based corrections until a new automatic controller is internalized; switching back reveals distinct cached policies.</figcaption>
-</figure>
-
-<figure class="section">
-  <img src="assets/img/mirror-drawing.png" alt="Mirror drawing / anti-reach" loading="lazy">
-  <figcaption><strong>Mirror-drawing / anti-reach.</strong> Under visuomotor inversion, S1 “chase-the-error” loops overshoot. S2 uses symbolic re-aiming (“aim left by θ”), trading speed for accuracy until implicit remapping forms.</figcaption>
-</figure>
-
-<figure class="section">
   <img src="assets/img/split-belt.png" alt="Split-belt treadmill adaptation" loading="lazy">
   <figcaption><strong>Split-belt adaptation.</strong> With asymmetric belt speeds, the symmetric-gait prior (S1) fails. S2 enforces asymmetric step timing; later, automaticity returns with a retuned S1 controller.</figcaption>
 </figure>
