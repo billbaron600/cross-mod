@@ -68,8 +68,6 @@ Early in skill acquisition, S1-style controllers can systematically mis-map perc
 
 **Formalized examples:**
 
-**Formalized examples:**
-
 <figure class="section narrow">
   <img src="assets/img/fulcrum-effect.png" alt="Laparoscopic fulcrum effect" loading="lazy">
   <figcaption><strong>Laparoscopic “fulcrum effect”.</strong> Because the tool pivots at the trocar, handle motion is inverted with respect to tip motion in Cartesian space. Habitual S1 mappings (“move toward the target”) create sign-flipped corrections and oscillation. An S2 controller applies the rule “move handle opposite desired tip displacement,” yielding slower but correct behavior; with practice, a new S1 policy is cached.</figcaption>
