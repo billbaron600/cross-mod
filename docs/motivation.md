@@ -16,11 +16,20 @@
 
 # Motivation
 
+**Origins and scope.** The dual-process framework comes from cognitive psychology’s study of judgment and decision making, notably the heuristics-and-biases program by Amos Tversky and Daniel Kahneman, which documented systematic departures from normative rationality in perception, inference, and choice ([Tversky & Kahneman, 1974](https://doi.org/10.1126/science.185.4157.1124)). Building on this work, dual-process accounts formalize a distinction between fast, automatic processes and slower, controlled processes as an explanation for those deviations and for context-dependent variability in performance; see Kahneman’s synthesis on bounded rationality and dual processing ([Kahneman, 2003](https://doi.org/10.1037/0003-066X.58.9.697)). In contemporary machine learning, this lens is often used to interpret reasoning models as analogs of the slower, deliberative system, particularly when they use explicit planning, tool use, and multi-step reflection.
+
+
 ## Dual-process cognition: formal view
+**System 2 (S2)** denotes controlled, slower, sequential, and rule-based processing: effortful, working-memory-limited, but capable of explicit reasoning, analytic decomposition, and reduced error under novel mappings. A classic treatment is Kahneman’s overview of bounded rationality and dual processing ([American Psychologist, 2003](https://doi.org/10.1037/0003-066X.58.9.697)).  
+In contemporary ML, large **reasoning** models are often framed as S2-like, with explicit planning and tool use; see, e.g., ([podcast link](https://sequoiacap.com/podcast/training-data-noam-brown/)).
+
+
 
 **System 1 (S1)** denotes automatic, rapid, parallel, and associative processing: effortless, cue-driven, high-throughput, but susceptible to biases and context-dependent errors.  
+
 **System 2 (S2)** denotes controlled, slower, sequential, and rule-based processing: effortful, working-memory-limited, but capable of explicit reasoning, analytic decomposition, and reduced error under novel mappings. A classic treatment is Kahneman’s overview of bounded rationality and dual processing ([American Psychologist, 2003](https://doi.org/10.1037/0003-066X.58.9.697)).  
-In contemporary ML, large **reasoning** models are often framed as S2-like, with explicit planning and tool-use; see, e.g., Noam Brown discussing S2-style reasoning and training signals on *Training Data* ([podcast link](https://sequoiacap.com/podcast/training-data-noam-brown/)).
+
+In contemporary ML, large **reasoning** models are often framed as S2-like, with explicit planning and tool-use; see, e.g., ([podcast link](https://sequoiacap.com/podcast/training-data-noam-brown/)).
 
 <figure class="section">
   <img src="assets/img/system-cog.png" alt="Contrasting attributes of System 1 vs System 2" loading="lazy">
@@ -28,9 +37,11 @@ In contemporary ML, large **reasoning** models are often framed as S2-like, with
 
 ## How this maps to robot instruction-following
 
-Reasoning models (S2-like) excel at:  
-1) interpreting **sketched demonstrations**—curves, arrows, constraints drawn over calibrated views that implicitly encode end-effector path shape and contact intent;  
-2) **task decomposition**—identifying sub-goals, ordering, and geometric preconditions.
+
+Reasoning models (S2-like) excel at:
+
+1) interpreting **sketched demonstrations**: curves, arrows, text, and constraints drawn over calibrated views that implicitly encode end-effector path shape and contact intent;  
+2) **task decomposition**: identifying sub-goals, ordering, and geometric preconditions.
 
 However, converting those abstractions into motion requires **pixel-level grounding** at high precision (button centerlines, rim edges, peg axes). Rather than routing all decisions through a monolithic action policy, we treat a **smaller VLM** as an **auxiliary precision tool** that the reasoner can call to resolve keypoints exactly in each view.
 
@@ -42,13 +53,13 @@ We “let S2 speak in the language of motion.” Concretely, the reasoning model
 - calls a **small pointing VLM** to localize those descriptors as **pixel-accurate keypoints** in each calibrated view,
 - **sketches per-view end-effector paths** that connect these keypoints,
 - **lifts** the paired 2D sketches into a **time-indexed 3D trajectory distribution**, and
-- outputs the **full end-effector command sequence**: position \(x_t\), orientation \(R_t\), and gripper action \(g_t\).
+- outputs the **full end-effector command sequence**: position, orientation, and gripper action.
 
-This pipeline makes the reasoner part of the *actuation representation* itself—not just the high-level planner. Having the reasoner **draw the path between precision points** bakes in *implicit collision shaping* and *trajectory smoothness* without relying on semantic segmentation, inverse-geometry grasp solvers, MPC-style controllers, or other traditional stacks.
+This pipeline makes the reasoning model part of the *actuation representation* itself, not just the high-level planner. Having the reasoning model **draw the path between precision points** bakes in *implicit collision shaping* and *trajectory smoothness* without relying on semantic segmentation, inverse-geometry grasp solvers, MPC-style controllers, or other traditional stacks.
 
 ### Why multi-view RGB suits this formulation
 
-Most multimodal reasoning models are trained predominantly on **RGB imagery**, so sketched RGB inputs stay close to their pretraining distribution. Our method uses **two calibrated RGB views**; multi-view lifting reduces depth ambiguity and stabilizes 3D waypoint estimation compared with a single view (even if that single view has noisy/scarce depth), while keeping inputs in the RGB regime where reasoning models are strongest. (See the multi-view lifting and hierarchical coupling details and diagrams in the paper’s method section and Figures 3–5.) :contentReference[oaicite:0]{index=0}
+Most multimodal reasoning models are trained predominantly on **RGB imagery**, so sketched RGB inputs stay close to their pretraining distribution. Our method uses **two calibrated RGB views**; multi-view lifting reduces depth ambiguity and stabilizes 3D waypoint estimation compared with a single view (even if that single view has noisy/scarce depth), while keeping inputs in the RGB regime where reasoning models are strongest. 
 
 
 ## Why suppress System 1 early?
