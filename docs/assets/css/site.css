@@ -36,8 +36,9 @@ html, body {
   display: flex;
   gap: 16px;
 }
-.topbar .links a,
-.topbar .links strong {          /* or span / .current, depending on what you use */
+
+/* Pills for all items in the topbar nav */
+.topbar .links > * {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -50,10 +51,11 @@ html, body {
   border-radius: 999px;
 }
 
-/* optional: keep the active one bold */
-.topbar .links strong {
+/* Optional: make the first item (Cross-Mod) bold */
+.topbar .links > *:first-child {
   font-weight: 700;
 }
+
 .topbar .links a:hover { background: var(--bg-soft); }
 
 /* Headings: larger + more whitespace to clearly separate sections */
