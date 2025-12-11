@@ -73,7 +73,7 @@ These keypoints start as language (e.g., “rim edge”, “button center”). T
 We couple the reasoning VLM to a small pointing model that specializes in <strong>turning a keypoint description into a precise pixel coordinate</strong> in each view. Those pixel locations are injected back into the reasoning model’s context, so the final plan is both semantically correct and geometrically precise (critical for small targets like buttons, peg holes, and block edges).
 </p>
 
-<div class="stack section">
+<div class="stack section method-media method-media--wide">
   <img src="assets/img/pointing-commands-and-sketching.png" alt="Pointing commands and sketch refinement" loading="lazy">
 </div>
 
@@ -93,6 +93,7 @@ Finally, the reasoning model assigns <strong>end‑effector orientations</strong
 <p class="text">
 If you want learning on top: sampling the waypoint distribution yields varied but intent‑consistent trajectories that can be logged as low‑cost “demonstrations” for downstream RL refinement.
 </p>
+
 
 
 
