@@ -178,11 +178,13 @@ In the remainder of the work, we adopt this modular reasoner pointer template an
 The separation between reasoning and pointing modules is also supported by evidence from visual neuroscience. When visual input reaches occipital cortex, it diverges into at least two major pathways:
 </p>
 
-<div class="section" style="text-align: center;">
+<div class="section">
   <img src="assets/img/two_streams_hyp.png"
        alt="Diagram of ventral and dorsal visual streams"
-       loading="lazy">
+       loading="lazy"
+       style="display: block; margin: 0 auto;">
 </div>
+
 
 
 <ul class="text" style="margin-left: 2rem;">
