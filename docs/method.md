@@ -20,7 +20,7 @@
 Cross‑Mod turns rough <strong>sketch + text</strong> instructions into an executable robot motion. A human annotates two calibrated RGB camera views with freehand strokes (paths, arrows, “avoid” regions) and short notes (e.g., “grasp here”, “close gripper”, “repeat 3x”). We treat these annotations as lightweight “demonstrations”: at runtime, the system transfers the intent to a new scene, produces a 3D waypoint distribution plus orientation/gripper commands, and rolls out the mean trajectory open loop.
 </p>
 
-<div class="stack section">
+<div class="stack section method-media method-media--wide">
   <img src="assets/img/systems-diagram.png" alt="Cross‑Mod system overview" loading="lazy">
 </div>
 
@@ -42,10 +42,11 @@ Cross‑Mod turns rough <strong>sketch + text</strong> instructions into an exec
 Cross‑modal instructions are intentionally lightweight: they capture <strong>shape</strong> (“go around this object”), <strong>contacts</strong> (“grasp here”), and <strong>constraints</strong> (“don’t hit this wall”) without requiring teleoperation. Because the sketches live directly in image space, they’re quick to provide and naturally aligned with what the robot sees.
 </p>
 
-<div class="grid grid-2 section">
+<div class="grid grid-2 section method-media">
   <img src="assets/img/play-jenga-sketched-demo.png" alt="Play Jenga sketched demo" loading="lazy">
   <img src="assets/img/rubish-in-bin-sketched-demo.png" alt="Rubbish in Bin sketched demo" loading="lazy">
 </div>
+
 
 
 
@@ -92,6 +93,7 @@ Finally, the reasoning model assigns <strong>end‑effector orientations</strong
 <p class="text">
 If you want learning on top: sampling the waypoint distribution yields varied but intent‑consistent trajectories that can be logged as low‑cost “demonstrations” for downstream RL refinement.
 </p>
+
 
 
 
