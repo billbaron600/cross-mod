@@ -178,6 +178,10 @@ In the remainder of the work, we adopt this modular reasoner pointer template an
 The separation between reasoning and pointing modules is also supported by evidence from visual neuroscience. When visual input reaches occipital cortex, it diverges into at least two major pathways:
 </p>
 
+<div class="section">
+  <img src="assets/img/two_streams_hyp.png" alt="Diagram of ventral and dorsal visual streams" loading="lazy">
+</div>
+
 <ul class="text" style="margin-left: 2rem;">
   <li>
     A <strong>ventral stream</strong>, projecting toward inferior temporal cortex, that supports object recognition and semantic identification.
@@ -209,7 +213,3 @@ Modular reasoner pointer architectures take a similar approach:
 From both engineering and biological perspectives, separating these roles provides a principled way to narrow the spatial precision gap without repeatedly retraining a single monolithic model on increasingly specialized data.
 </p>
 
-<div class="grid grid-2 section">
-  <img src="assets/img/two_streams_hyp.png" alt="Diagram of ventral and dorsal visual streams" loading="lazy">
-  <img src="assets/img/brain_regions.png" alt="Brain regions involved in object recognition and grasping" loading="lazy">
-</div>
