@@ -47,9 +47,7 @@ Cross‑modal instructions are intentionally lightweight: they capture <strong>s
   <img src="assets/img/rubish-in-bin-sketched-demo.png" alt="Rubbish in Bin sketched demo" loading="lazy">
 </div>
 
-<p class="text">
-In practice we use three kinds of marks: (1) a rough <strong>path line</strong> for the end‑effector, (2) <strong>arrows</strong> to indicate approach or motion direction, and (3) short <strong>text labels</strong> for key actions (“close”, “open”, “repeat”, “avoid”).
-</p>
+
 
 ## Reasoning Model: Task, Subgoals, and Keypoints
 <p class="text">
@@ -94,6 +92,7 @@ Finally, the reasoning model assigns <strong>end‑effector orientations</strong
 <p class="text">
 If you want learning on top: sampling the waypoint distribution yields varied but intent‑consistent trajectories that can be logged as low‑cost “demonstrations” for downstream RL refinement.
 </p>
+
 
 
 
