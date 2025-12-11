@@ -29,7 +29,7 @@ These capabilities suggest that high level semantic reasoning is becoming less o
 It is therefore useful to distinguish between <strong>semantic task understanding</strong> and <strong>fine grained spatial localization</strong>:
 </p>
 
-<ul class="text">
+<ul class="text" style="margin-left: 2rem;">
   <li>
     <strong>Semantic task understanding.</strong>
     Mapping language and images to goals, constraints, subgoals, and high level plans that are causally sensible.
@@ -49,7 +49,7 @@ The <a href="https://arxiv.org/abs/2503.20020" target="_blank" rel="noopener">Ge
 On Where2Place, the reported accuracies are approximately:
 </p>
 
-<ul class="text">
+<ul class="text" style="margin-left: 2rem;">
   <li>Gemini 2.0 Pro Experimental: 38.8</li>
   <li>Gemini Robotics ER: 45.0</li>
   <li>GPT 4o: 20.6</li>
@@ -66,7 +66,7 @@ Even under a shared evaluation protocol, state of the art chat oriented VLMs rem
 The <a href="https://arxiv.org/abs/2409.17146" target="_blank" rel="noopener">Molmo and PixMo</a> work provides an important contrast:
 </p>
 
-<ul class="text">
+<ul class="text" style="margin-left: 2rem;">
   <li>
     <strong>Molmo 7B D</strong> uses a 7 billion parameter backbone but already matches or exceeds much larger proprietary VLMs on several pointing benchmarks.
   </li>
@@ -86,7 +86,7 @@ In other words, a comparatively small VLM that is explicitly trained for pointin
 These results indicate that high level multimodal reasoning and fine grained spatial localization behave as at least partially independent capability axes:
 </p>
 
-<ul class="text">
+<ul class="text" style="margin-left: 2rem;">
   <li>Scaling a generalist model improves pointing performance to some extent.</li>
   <li>Targeted pointing data and objectives provide much larger gains on dense localization tasks.</li>
 </ul>
@@ -108,7 +108,7 @@ One response to the spatial precision gap is to fine tune a large general purpos
 This monolithic approach is powerful but introduces several concerns:
 </p>
 
-<ol class="text">
+<ol class="text" style="margin-left: 2rem;">
   <li>
     <strong>Catastrophic forgetting.</strong>
     Full parameter fine tuning on a narrow downstream task can degrade earlier capabilities if the original training data are not revisited. Fine tuning for embodied pointing and control changes the internal representations that also support code generation, mathematical reasoning, and other skills. Modern techniques can reduce forgetting, but they increase system complexity and are not always accessible for proprietary backbones.
@@ -136,7 +136,7 @@ These issues echo broader critiques of end to end learning for embodied agents. 
 An alternative design treats semantic reasoning and precise localization as separate but tightly coupled modules. In this class of architectures, a large generalist reasoning VLM and a smaller pointing specialized VLM are composed through an explicit interface.
 </p>
 
-<ul class="text">
+<ul class="text" style="margin-left: 2rem;">
   <li>
     The <strong>reasoning VLM</strong> takes images and language as input, interprets the task, identifies relevant objects and constraints, and emits structured descriptors such as semantic keypoints, subgoal descriptions, or coarse trajectory sketches. Its parameters remain frozen across robotics applications so that general capabilities are preserved.
   </li>
@@ -149,7 +149,7 @@ An alternative design treats semantic reasoning and precise localization as sepa
 A coupling module maintains shared context between the two components:
 </p>
 
-<ol class="text">
+<ol class="text" style="margin-left: 2rem;">
   <li>Descriptors from the reasoning model are passed to the pointing model.</li>
   <li>The pointing model returns concrete image coordinates for keypoints or contact regions.</li>
   <li>These coordinates are fed back into the reasoning model or a downstream planner to update sketches, synthesize 3D waypoints, and generate control commands.</li>
@@ -163,7 +163,7 @@ Conceptually, this resembles a classical navigation stack where a global planner
 This modular pattern offers several advantages:
 </p>
 
-<ul class="text">
+<ul class="text" style="margin-left: 2rem;">
   <li>It preserves the general reasoning abilities of the large VLM, which can be reused across embodiments and tasks.</li>
   <li>It isolates the high variance spatial estimation problem into a smaller component that can be retrained or replaced without disturbing the rest of the system.</li>
   <li>It exposes interpretable intermediate representations, such as named keypoints and trajectories, that can be logged, inspected, or constrained by classical control stacks and safety monitors.</li>
@@ -178,7 +178,7 @@ In the remainder of the work, we adopt this modular reasoner pointer template an
 The separation between reasoning and pointing modules is also supported by evidence from visual neuroscience. When visual input reaches occipital cortex, it diverges into at least two major pathways:
 </p>
 
-<ul class="text">
+<ul class="text" style="margin-left: 2rem;">
   <li>
     A <strong>ventral stream</strong>, projecting toward inferior temporal cortex, that supports object recognition and semantic identification.
   </li>
@@ -199,7 +199,7 @@ These streams are not independent. There is substantial interaction and informat
 Modular reasoner pointer architectures take a similar approach:
 </p>
 
-<ul class="text">
+<ul class="text" style="margin-left: 2rem;">
   <li>The reasoning VLM plays a ventral like role, maintaining an object and task centered description of the scene.</li>
   <li>The pointing VLM plays a dorsal like role, using that description to pick metrically accurate contact points in the image.</li>
   <li>The coupling between them is analogous to the recurrent interaction between temporal and parietal cortex.</li>
