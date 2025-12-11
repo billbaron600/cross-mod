@@ -62,6 +62,10 @@ On Where2Place, the reported accuracies are approximately:
 Even under a shared evaluation protocol, state of the art chat oriented VLMs remain far behind both a robotics fine tuned Gemini variant and the open weight Molmo models on this dense pointing task.
 </p>
 
+<div class="section">
+  <img src="assets/img/pointing_generalists_vs_specialists.png" alt="Pointing performance of generalist versus pointing-specialized models" loading="lazy">
+</div>
+
 <p class="text">
 The <a href="https://arxiv.org/abs/2409.17146" target="_blank" rel="noopener">Molmo and PixMo</a> work provides an important contrast:
 </p>
@@ -95,9 +99,7 @@ These results indicate that high level multimodal reasoning and fine grained spa
 We refer to the resulting performance difference between semantic reasoning and precise localization as the <strong>spatial precision gap</strong>. Later sections of this page and the paper will examine how modular architectures can narrow this gap without continually retraining a single monolithic model.
 </p>
 
-<div class="section">
-  <img src="assets/img/pointing_generalists_vs_specialists.png" alt="Pointing performance of generalist versus pointing-specialized models" loading="lazy">
-</div>
+
 
 ## Path A: monolithic embodied VLMs
 <p class="text">
