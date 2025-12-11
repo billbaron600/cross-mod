@@ -36,17 +36,23 @@ html, body {
   display: flex;
   gap: 16px;
 }
-.topbar .links a {
-  display: inline-flex;          /* make pill a flex container */
-  align-items: center;           /* vertically center text */
-  justify-content: center;       /* horizontally center text */
-  white-space: nowrap;           /* keep multi-word labels on one line */
+.topbar .links a,
+.topbar .links strong {          /* or span / .current, depending on what you use */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 
   text-decoration: none;
   color: #1f2937;
   border: 1px solid var(--border);
   padding: 6px 10px;
   border-radius: 999px;
+}
+
+/* optional: keep the active one bold */
+.topbar .links strong {
+  font-weight: 700;
 }
 .topbar .links a:hover { background: var(--bg-soft); }
 
