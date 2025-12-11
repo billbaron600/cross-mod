@@ -37,6 +37,11 @@ html, body {
   gap: 16px;
 }
 .topbar .links a {
+  display: inline-flex;          /* make pill a flex container */
+  align-items: center;           /* vertically center text */
+  justify-content: center;       /* horizontally center text */
+  white-space: nowrap;           /* keep multi-word labels on one line */
+
   text-decoration: none;
   color: #1f2937;
   border: 1px solid var(--border);
