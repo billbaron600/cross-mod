@@ -26,7 +26,7 @@ reasoning to <em>pixel-accurate</em> spatial grounding—by removing it and meas
 
 
 <p class="text">
-<strong>CrossInstruct (full system)</strong> separates “what to do” from “where exactly.” A large reasoning VLM interprets the
+<strong>(1) CrossInstruct (full system)</strong> separates “what to do” from “where exactly.” A large reasoning VLM interprets the
 sketch/text intent, then a dedicated pointing model (Molmo) returns precise 2D keypoints. Those keypoints are fed back to
 the reasoning model to anchor multi-view trajectory sketches before lifting them into 3D.
 </p>
@@ -38,7 +38,7 @@ the reasoning model to anchor multi-view trajectory sketches before lifting them
 </div>
 
 <p class="text">
-<strong>VLM‑Reasoning (no precision coupling):</strong> remove Molmo; the reasoning model must both reason <em>and</em> draw the
+<strong>(2) VLM‑Reasoning (no precision coupling):</strong> remove Molmo; the reasoning model must both reason <em>and</em> draw the
 trajectories / output end-effector poses directly over images. Everything else is kept the same (same demonstrations,
 same evaluation seeds, same downstream pipeline).
 </p>
