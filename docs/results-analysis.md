@@ -111,66 +111,78 @@
 
 <H1> Analysis </H1>
 
+
 <p class="text">
-CrossInstruct outperforms the VLM-Reasoning ablation on <strong>all 8 tasks</strong>. The gap is not best explained by “precision demand”
-alone. Instead, the consistent advantage comes from better <strong>visual grounding</strong> when the scene does not contain a single
-bright, unambiguous target that a reasoning-only model can latch onto.
+CrossInstruct outperforms the VLM-Reasoning ablation on <strong>all 8 RLBench tasks</strong>. The pattern in the table suggests that the main
+difference is not “can the model plan the right behavior,” but whether it can <strong>reliably localize the correct object and contact point</strong>
+when the scene is visually ambiguous.
 </p>
 
 <p class="text"><strong>CrossInstruct vs. VLM-Reasoning (no precision coupling)</strong></p>
 <ul class="text">
   <li>
-    <strong>Average success rate:</strong> CrossInstruct = 0.80, VLM-Reasoning = 0.14
-    (absolute +0.66, about 5.6× higher on average).
+    <strong>Average success rate:</strong> CrossInstruct = 0.80, VLM-Reasoning = 0.14 (absolute +0.66).
   </li>
   <li>
-    <strong>Consistent win:</strong> CrossInstruct is higher on every task, including the highest-precision task
-    (<strong>Square Block on Peg</strong>), where VLM-Reasoning can still perform reasonably well.
+    <strong>Consistent win:</strong> CrossInstruct is higher on every task, including <strong>Square Block on Peg</strong>, which is one of the most
+    precision-sensitive tasks.
   </li>
 </ul>
 
-<p class="text"><strong>Why the gap tracks visual distinctiveness more than precision</strong></p>
+<p class="text"><strong>Why “bright, distinctive targets” reduce the gap</strong></p>
 <ul class="text">
   <li>
-    A reasoning-only model can sometimes succeed on very high-precision tasks when the target is visually obvious, for example when
-    the manipulated object is highly saturated and isolated from distractors. This helps explain why VLM-Reasoning can look
-    comparatively strong on <strong>Square Block on Peg</strong>.
+    The smallest gaps tend to appear on tasks where the relevant objects are visually salient and high-contrast.
+    In our task set, <strong>Square Block on Peg</strong>, <strong>Slide Block to Target</strong>, and <strong>Push Button</strong> feature bright,
+    saturated objects or targets that are easy to pick out visually.
   </li>
   <li>
-    The failure mode appears when the manipulated object is <strong>not</strong> visually distinct. In lower-contrast scenes or clutter,
-    object boundaries are ambiguous and the reasoning model’s “good plan” can be anchored to the wrong pixels.
+    On these tasks, even a reasoning-only model can sometimes ground “the right thing” from color and simple geometry cues, so it can look
+    comparatively stronger than on tasks with less distinctive targets.
   </li>
   <li>
-    Precision coupling addresses this by delegating localization to the pointing model, which is more reliable when there are
-    weak color gradients or multiple plausible targets. The result is not just a better plan, but a plan that is grounded to the
-    correct contact point.
+    In contrast, tasks like <strong>Basketball in Hoop</strong>, <strong>Close Drawer</strong>, <strong>Play Jenga</strong>, <strong>Lift Numbered Block</strong>,
+    and <strong>Put Rubbish in Bin</strong> often involve more clutter, weaker color gradients, or less isolated targets. In these settings, small grounding
+    errors become common and success drops sharply without precision coupling.
+  </li>
+</ul>
+
+<p class="text"><strong>Concrete disambiguation failure in VLM-Reasoning (Square Block on Peg)</strong></p>
+<ul class="text">
+  <li>
+    The qualitative example highlights the core limitation: the model can confuse <strong>which object instance is the target</strong> when multiple
+    objects share similar colors.
+  </li>
+  <li>
+    In the left case, the correct interaction is “move the <strong>blue square</strong> onto the <strong>red peg</strong>.” However, because there is also a
+    <strong>blue peg</strong> present, the reasoning-only variant draws a trajectory from the <strong>blue peg</strong> to the <strong>red peg</strong>.
+  </li>
+  <li>
+    This is not a planning error. It is a <strong>grounding and disambiguation</strong> error. The model latched onto the wrong blue object (a peg rather than
+    the square), then produced a coherent but incorrect path.
   </li>
 </ul>
 
 <p class="text"><strong>Where CrossInstruct still struggles</strong></p>
 <ul class="text">
   <li>
-    CrossInstruct’s lowest-performing tasks are those that require <strong>tight coordination</strong> between end-effector
-    <strong>position</strong>, <strong>orientation</strong>, and <strong>gripper timing</strong>, rather than simply reaching a visually
-    identified object.
-  </li>
-  <li>
-    Intuitively, these tasks impose a coupled constraint: being “near” the object is not enough. The approach direction, wrist
-    orientation, and open-close schedule must all be correct in a narrow window for success.
+    Even with better localization, CrossInstruct is weakest on tasks that require precise coordination between <strong>end-effector position</strong>,
+    <strong>orientation</strong>, and <strong>gripper timing</strong>, rather than only reaching the right object.
   </li>
 </ul>
 
 <p class="text"><strong>Pure RL baselines (context)</strong></p>
 <ul class="text">
   <li>
-    The pure RL baselines are trained on each task with sparse rewards, then evaluated on the same held-out seeds. They serve as a
-    reference for how far exploration-only learning can get without cross-modal supervision.
+    TD3 and SAC are trained per task with sparse rewards, then evaluated on held-out seeds. They measure how far exploration-only learning can get without
+    cross-modal supervision.
   </li>
   <li>
-    Close Drawer is the one task where pure RL is competitive, which is consistent with it being relatively forgiving and not
-    requiring precise multi-part coordination of pose and gripper events.
+    <strong>Close Drawer</strong> is the one task where pure RL is competitive, which is consistent with it being comparatively forgiving and not requiring
+    fine instance disambiguation or tight pose-plus-gripper coordination.
   </li>
 </ul>
+
 
 
 
