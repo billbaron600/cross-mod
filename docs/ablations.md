@@ -90,23 +90,42 @@ These baselines are not meant to compete on the same supervision signal. They ar
 <h3>Evaluation protocol</h3>
 
 <p class="text">
-All methods are evaluated on <strong>RLBench</strong> with <strong>20 held‑out random seeds per task</strong>. The metric is
-<strong>task success rate</strong> (fraction of successful rollouts). We additionally run qualitative real‑world tests under
-domain + embodiment shift.
+We evaluate <strong>generalization</strong> across randomized task instances in RLBench. All reported numbers are
+<strong>success rate</strong> over <strong>20 held-out evaluation seeds</strong> per task.
 </p>
 
-<h3>What changes when you remove coupling?</h3>
+<p class="text"><strong>Instruction-driven methods (CrossInstruct and the ablated variant)</strong></p>
+<ul class="text">
+  <li><strong>No task fine-tuning:</strong> there is no training or gradient update on the target task.</li>
+  <li>
+    <strong>Single demonstration seed:</strong> each task provides <strong>one</strong> sketched demonstration from a
+    single seed. The demonstration exists only as a <strong>sketch over images</strong> (plus the instruction).
+  </li>
+  <li>
+    <strong>Held-out testing:</strong> the method is then evaluated on <strong>20 unseen seeds</strong> for that task.
+    This tests whether the system can transfer a single sketched intent to new object poses and scene variations.
+  </li>
+</ul>
+
+<p class="text"><strong>Pure RL baselines (TD3 and SAC)</strong></p>
+<ul class="text">
+  <li><strong>Task training:</strong> the policy is trained on the task using environment interaction (sparse reward).</li>
+  <li><strong>Evaluation split:</strong> after training, performance is measured on <strong>20 held-out seeds</strong>.</li>
+</ul>
+
+<p class="text"><strong>Metric</strong></p>
+<ul class="text">
+  <li>
+    <strong>Success rate:</strong> the percentage of successful rollouts among the <strong>20 held-out evaluation seeds</strong>
+    (one rollout per seed).
+  </li>
+</ul>
 
 <p class="text">
-Removing precision coupling produces trajectories that are often <em>nearly</em> correct, but spatially offset in ways that are
-fatal for precision tasks (e.g., the robot under-reaches the target interaction point). Failures are most common in cluttered
-or low‑contrast scenes and when multiple objects share similar visual cues (e.g., similarly-colored distractors).
+We also include qualitative real-world tests under domain and embodiment shift (different arm morphology and real sensor noise)
+to assess whether the behaviors remain plausible beyond simulation.
 </p>
 
-<p class="text">
-See <em>Fig. 9</em> for under-reach / misalignment failures (button, basketball, Jenga), and <em>Fig. 10</em> for distractor grounding
-when colors are ambiguous (peg vs. similarly colored objects).
-</p>
 
 <h3>Quantitative snapshot</h3>
 
