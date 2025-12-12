@@ -21,68 +21,78 @@
 <div class="section">
   <div class="table-wrap">
     <table class="metrics">
-      <caption>Simulation Results on RLBench (single merged table)</caption>
+      <caption>Simulation Results on RLBench (transposed)</caption>
       <thead>
         <tr>
-          <th>Method</th>
-          <th>basketball</th>
-          <th>peg</th>
-          <th>close drawer</th>
-          <th>slide block</th>
-          <th>jenga</th>
-          <th>lift block</th>
-          <th>rubbish</th>
-          <th>push button</th>
+          <th>Task</th>
+          <th>CrossInstruct</th>
+          <th>VLM-Reasoning</th>
+          <th>Pure RL (SAC)</th>
+          <th>Pure RL (TD3)</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>CrossInstruct</td>
+          <td>basketball</td>
           <td>0.90</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+        </tr>
+        <tr>
+          <td>peg</td>
           <td>0.25</td>
-          <td>0.90</td>
-          <td>0.90</td>
-          <td>0.55</td>
-          <td>0.95</td>
-          <td>1.00</td>
-          <td>0.95</td>
+          <td>0.20</td>
+          <td>0.00</td>
+          <td>0.00</td>
         </tr>
         <tr>
-          <td>VLM-Reasoning</td>
-          <td>0.00</td>
-          <td>0.20</td>
+          <td>close drawer</td>
+          <td>0.90</td>
           <td>0.45</td>
-          <td>0.20</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.30</td>
+          <td>0.95</td>
+          <td>0.40</td>
         </tr>
         <tr>
-          <td>Pure RL — SAC</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.95</td>
+          <td>slide block</td>
+          <td>0.90</td>
+          <td>0.20</td>
           <td>0.10</td>
           <td>0.00</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.05</td>
         </tr>
         <tr>
-          <td>Pure RL — TD3</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.40</td>
-          <td>0.00</td>
+          <td>jenga</td>
+          <td>0.55</td>
           <td>0.00</td>
           <td>0.00</td>
           <td>0.00</td>
+        </tr>
+        <tr>
+          <td>lift block</td>
+          <td>0.95</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+        </tr>
+        <tr>
+          <td>rubbish</td>
+          <td>1.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>0.00</td>
+        </tr>
+        <tr>
+          <td>push button</td>
+          <td>0.95</td>
+          <td>0.30</td>
+          <td>0.05</td>
           <td>0.00</td>
         </tr>
       </tbody>
     </table>
   </div>
+</div>
+
 
   <p class="text">
     <em>Table I</em> in the paper (p. 6) reports these success rates across eight RLBench tasks. CrossInstruct substantially outperforms the reasoning‑only variant and pure RL on precision‑sensitive tasks (e.g., Basketball‑in‑Hoop, Push Button), where pixel‑accurate keypoints prevent small misalignments that otherwise cause failure. (§V‑E; Fig. 8 for a spatially accurate basketball rollout.) :contentReference[oaicite:13]{index=13}
