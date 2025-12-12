@@ -116,29 +116,40 @@ img, video {
 /* ---------- Video ---------- */
 .video { width: 100%; height: auto; display: block; }
 
+/* ---------- Tables (Results) ---------- */
 
-/* keep global table reset, but do NOT force width 100% here */
+/* keep a global reset, but do not force width */
 table{
   border-collapse: separate;
   border-spacing: 0;
   margin: 0;
 }
 
+/* outer scroller spans the page and centers its contents */
 .table-wrap{
   overflow-x: auto;
   margin: 6px auto var(--section-pad);
   padding: 0;
+  max-width: var(--page-max);
 
-  width: max-content;      /* shrink-wrap to the table width */
-  max-width: 100%;         /* still allow scrolling on small screens */
+  display: flex;            /* center the table/card */
+  justify-content: center;
 }
 
+/* the table shrink-wraps so it can actually be centered */
 table.metrics{
-  width: max-content;
-  min-width: 860px;        /* optional: slightly smaller than 980 */
-  margin: 0;
+  width: max-content;       /* critical: not 100% */
+  min-width: 860px;
+  margin: 0 auto;
+
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
+/* caption + cells */
 table.metrics caption{
   caption-side: top;
   text-align: left;
@@ -172,6 +183,18 @@ table.metrics td:first-child{
 
 table.metrics tbody tr:nth-child(odd) td{ background: #fcfcfc; }
 table.metrics tbody tr:last-child td{ border-bottom: 0; }
+
+/* small screens: let it scroll, but still center when it fits */
+@media (max-width: 720px){
+  .table-wrap{
+    justify-content: flex-start;  /* better UX with horizontal scrolling */
+  }
+  table.metrics{
+    min-width: 860px;            /* keep your chosen width */
+  }
+}
+
+
 
 
 /* ---------- Small screens ---------- */
