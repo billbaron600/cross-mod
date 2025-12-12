@@ -27,8 +27,8 @@
   </div>
 
 
- <div class="table-wrap" style="display:flex;justify-content:center;">
-  <table class="metrics" style="width:max-content;margin:0 auto;">
+ <div class="table-wrap">
+  <table class="metrics">
     <caption>Task Success Rates for the Different Methods</caption>
     <thead>
       <tr>
