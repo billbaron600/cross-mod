@@ -2,9 +2,9 @@
 
 <nav class="topbar">
   <div class="links">
-    <a class="active" href="index.html">Background</a>
+    <a href="index.html">Background</a>
     <a href="motivation.html">Motivation</a>
-    <a href="method.html">Method</a>
+    <a class="active" href="method.html">Method</a>
     <a href="video-rollouts.html">Video Rollouts</a>
     <a href="ablations.html">Experiments/Ablations</a>
     <a href="results-analysis.html">Results / Analysis</a>
@@ -271,6 +271,7 @@ preserving the sketch-implied shaping and clearances.
        alt="jenga rollout"
        loading="lazy">
 </figure>
+
 
 
 
