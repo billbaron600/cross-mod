@@ -78,21 +78,77 @@ We couple the reasoning VLM to a small pointing model that specializes in <stron
 </div>
 
 ## Full Loop: From Grounded Pixels to 3D Motion
+
 <p class="text">
-After keypoints are grounded, the reasoning model redraws the final 2D path in each camera view as a smooth, time‑ordered curve. We treat each curve as a <strong>corridor</strong> rather than a single thin line: at each time step, we allow a small amount of uncertainty around the drawn pixel, which makes the resulting 3D path more robust to ambiguity and minor sketch variation.
+Once keypoints are grounded to pixels in both cameras, Cross‑Mod turns those pixels into an executable 6‑DoF plan in three stages:
+(1) sketch a continuous 2D path in each view, (2) lift the two paths into a time‑indexed 3D waypoint distribution via calibrated ray casting,
+and (3) execute the mean trajectory open loop with orientations and gripper events.
+</p>
+
+<figure class="section method-media method-media--wide">
+  <img src="assets/img/multiview_block_rollout.png"
+       alt="Two-view 2D trajectories, lifted 3D waypoints, and open-loop rollout"
+       loading="lazy">
+  <figcaption class="text">
+    Left: per‑view 2D end‑effector paths. Right: corresponding lifted 3D waypoints. Bottom: the resulting open‑loop rollout.
+  </figcaption>
+</figure>
+
+<h3>1) Continuous 2D paths (per view)</h3>
+<p class="text">
+With pixel-accurate keypoints in context, the reasoning model redraws a clean, smooth end‑effector path in each camera view.
+The two paths are produced with the same number of samples, so “time step t” refers to the same progress along the motion in both views.
+This time alignment is what makes point‑by‑point multi‑view fusion possible.
 </p>
 
 <p class="text">
-To lift the paths into 3D, we use the known calibration of the two cameras. For each time step, we cast rays from both cameras through pixels along the two corridors and keep the 3D points that are simultaneously consistent with both views. This produces a <strong>distribution of feasible 3D waypoints over time</strong>. The mean waypoint sequence is the executable centerline, and sampling produces diverse rollouts that remain faithful to the original sketch intent.
+We treat each path as a corridor rather than a single pixel-wide polyline. Concretely: at each time step, the drawn pixel is the center of a small
+uncertainty region in image space. This makes the lift robust to small sketch variation, minor ambiguities, and the fact that real scenes rarely
+match an instruction example perfectly.
+</p>
+
+<h3>2) Ray casting lift: from two 2D corridors to a 3D waypoint distribution</h3>
+<p class="text">
+To lift into 3D we use the known calibration of the two cameras (intrinsics + extrinsics). For a given time step, we sample pixels from the corridor
+in view 1 and view 2, cast the corresponding rays into 3D, and keep 3D points that are simultaneously consistent with both views.
+In practice, rays will not intersect perfectly, so we keep near-consistent pairs (within a small reprojection tolerance) and aggregate the resulting 3D samples.
 </p>
 
 <p class="text">
-Finally, the reasoning model assigns <strong>end‑effector orientations</strong> (to align the gripper with slots/surfaces or to pull along a specific direction) and <strong>gripper open/close events</strong> along the path. The robot tracks the resulting 6‑DoF motion open loop using an IK‑based controller or reactive primitives.
+This produces a set of feasible 3D points per time step. We summarize that set as a compact 3D waypoint distribution over time:
+the mean is the “centerline” trajectory we execute, and the spread captures where the sketch admits multiple valid realizations.
 </p>
 
+<figure class="section method-media">
+  <img src="assets/img/ray_casting_stuff.png"
+       alt="Calibrated rays cast from two camera viewpoints to localize 3D waypoints"
+       loading="lazy">
+  <figcaption class="text">
+    Multi‑view lifting intuition: rays from both cameras constrain each waypoint in 3D.
+  </figcaption>
+</figure>
+
 <p class="text">
-If you want learning on top: sampling the waypoint distribution yields varied but intent‑consistent trajectories that can be logged as low‑cost “demonstrations” for downstream RL refinement.
+(Optional but useful for explanation/visualization.) After lifting, you can project the 3D mean waypoints back into both camera views to sanity-check that
+the lifted motion still follows the intended 2D geometry. This is also a good “debug view” for calibration and corridor width.
 </p>
+
+<h3>3) Open‑loop rollout with orientations + gripper actions</h3>
+<p class="text">
+The final output is not just positions. Along the mean 3D waypoint sequence, the reasoning model specifies end‑effector orientations
+(to align with edges, slots, pull directions, or approach normals) and discrete gripper open/close events at the appropriate times.
+We then track the mean plan open loop using a lightweight controller (e.g., IK-based tracking or reactive primitives), preserving the
+sketch-implied shaping and clearances.
+</p>
+
+<h3>Using the distribution (optional): diverse rollouts for RL warm‑start</h3>
+<p class="text">
+Because the lift yields a distribution, we can sample multiple intent‑consistent trajectories (not just one). These samples can be executed in simulation
+to cheaply generate varied rollouts that remain faithful to the instruction, and then used as low-cost demonstrations to warm-start downstream RL
+(or as persistent behavior-cloning regularization during RL refinement).
+</p>
+
+
 
 
 
