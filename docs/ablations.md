@@ -51,7 +51,7 @@ same evaluation seeds, same downstream pipeline).
 
 
 <p class="text">
-<strong>Why this is a clean ablation:</strong> the only change is whether trajectory sketches are anchored by pixel-level keypoints.
+<strong>Purpose of the Ablation:</strong> the only change is whether trajectory sketches are anchored by pixel-level keypoints.
 This isolates the effect of precision coupling from the rest of the pipeline.
 </p>
 
