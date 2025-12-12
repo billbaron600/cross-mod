@@ -6,7 +6,7 @@
     <a href="motivation.html">Motivation</a>
     <a href="method.html">Method</a>
     <a href="video-rollouts.html">Video Rollouts</a>
-    <a href="ablations.html">Ablations</a>
+    <a href="ablations.html">Experiments/Ablations</a>
     <a href="results-analysis.html">Results / Analysis</a>
     <a href="rl-refinement-future.html">RL Refinement / Future Work</a>
     <a href="https://arxiv.org/abs/2509.21107" target="_blank" rel="noopener">Paper</a>
