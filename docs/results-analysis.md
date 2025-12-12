@@ -27,78 +27,78 @@
 
 
   <div class="table-wrap">
-    <table class="metrics">
-      <caption>Task Success Rates for the Different Methods</caption>
-      <thead>
-        <tr>
-          <th>Task</th>
-          <th>CrossInstruct</th>
-          <th>VLM-Reasoning</th>
-          <th>Pure RL (SAC)</th>
-          <th>Pure RL (TD3)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>basketball</td>
-          <td>0.90</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.00</td>
-        </tr>
-        <tr>
-          <td>peg</td>
-          <td>0.25</td>
-          <td>0.20</td>
-          <td>0.00</td>
-          <td>0.00</td>
-        </tr>
-        <tr>
-          <td>close drawer</td>
-          <td>0.90</td>
-          <td>0.45</td>
-          <td>0.95</td>
-          <td>0.40</td>
-        </tr>
-        <tr>
-          <td>slide block</td>
-          <td>0.90</td>
-          <td>0.20</td>
-          <td>0.10</td>
-          <td>0.00</td>
-        </tr>
-        <tr>
-          <td>jenga</td>
-          <td>0.55</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.00</td>
-        </tr>
-        <tr>
-          <td>lift block</td>
-          <td>0.95</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.00</td>
-        </tr>
-        <tr>
-          <td>rubbish</td>
-          <td>1.00</td>
-          <td>0.00</td>
-          <td>0.00</td>
-          <td>0.00</td>
-        </tr>
-        <tr>
-          <td>push button</td>
-          <td>0.95</td>
-          <td>0.30</td>
-          <td>0.05</td>
-          <td>0.00</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table class="metrics">
+    <caption>Task Success Rates for the Different Methods</caption>
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>CrossInstruct</th>
+        <th>VLM-Reasoning</th>
+        <th>Pure RL (SAC)</th>
+        <th>Pure RL (TD3)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>basketball</td>
+        <td style="background:#d1fae5;">0.90</td>
+        <td>0.00</td>
+        <td>0.00</td>
+        <td>0.00</td>
+      </tr>
+      <tr>
+        <td>peg</td>
+        <td style="background:#d1fae5;">0.25</td>
+        <td>0.20</td>
+        <td>0.00</td>
+        <td>0.00</td>
+      </tr>
+      <tr>
+        <td>close drawer</td>
+        <td>0.90</td>
+        <td>0.45</td>
+        <td style="background:#d1fae5;">0.95</td>
+        <td>0.40</td>
+      </tr>
+      <tr>
+        <td>slide block</td>
+        <td style="background:#d1fae5;">0.90</td>
+        <td>0.20</td>
+        <td>0.10</td>
+        <td>0.00</td>
+      </tr>
+      <tr>
+        <td>jenga</td>
+        <td style="background:#d1fae5;">0.55</td>
+        <td>0.00</td>
+        <td>0.00</td>
+        <td>0.00</td>
+      </tr>
+      <tr>
+        <td>lift block</td>
+        <td style="background:#d1fae5;">0.95</td>
+        <td>0.00</td>
+        <td>0.00</td>
+        <td>0.00</td>
+      </tr>
+      <tr>
+        <td>rubbish</td>
+        <td style="background:#d1fae5;">1.00</td>
+        <td>0.00</td>
+        <td>0.00</td>
+        <td>0.00</td>
+      </tr>
+      <tr>
+        <td>push button</td>
+        <td style="background:#d1fae5;">0.95</td>
+        <td>0.30</td>
+        <td>0.05</td>
+        <td>0.00</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
 
 
 
