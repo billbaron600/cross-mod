@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="assets/css/site.css">
 
 <nav class="topbar">
-  <a class="brand" href="index.html">Cross-Mod</a>
+  <a class="brand" href="index.html">Background</a>
   <div class="links">
-    <strong>Motivation</strong>
+    <a class="active" href="motivation.html">Motivation</a>
     <a href="method.html">Method</a>
     <a href="video-rollouts.html">Video Rollouts</a>
     <a href="ablations.html">Experiments/Ablations</a>
@@ -13,6 +13,7 @@
     <a href="https://github.com/billbaron600/cross-mod/tree/main" target="_blank" rel="noopener">Code</a>
   </div>
 </nav>
+
 
 # Motivation
 
