@@ -116,11 +116,6 @@ in view 1 and view 2, cast the corresponding rays into 3D, and keep 3D points th
 In practice, rays will not intersect perfectly, so we keep near-consistent pairs (within a small reprojection tolerance) and aggregate the resulting 3D samples.
 </p>
 
-<p class="text">
-This produces a set of feasible 3D points per time step. We summarize that set as a compact 3D waypoint distribution over time:
-the mean is the “centerline” trajectory we execute, and the spread captures where the sketch admits multiple valid realizations.
-</p>
-
 <figure class="section method-media">
   <img src="assets/img/ray_casting_stuff.png"
        alt="Calibrated rays cast from two camera viewpoints to localize 3D waypoints"
@@ -129,6 +124,22 @@ the mean is the “centerline” trajectory we execute, and the spread captures 
     Multi‑view lifting intuition: rays from both cameras constrain each waypoint in 3D.
   </figcaption>
 </figure>
+
+<p class="text">
+This produces a set of feasible 3D points per time step. We summarize that set as a compact 3D waypoint distribution over time:
+the mean is the “centerline” trajectory we execute, and the spread captures where the sketch admits multiple valid realizations.
+</p>
+
+<figure class="section method-media method-media--wide">
+  <img src="assets/img/3d-reprojection.png"
+       alt="Reprojected onto Image"
+       loading="lazy">
+  <figcaption class="text">
+    3D Trajectory reprojected back onto the images
+  </figcaption>
+</figure>
+
+
 
 
 
@@ -149,6 +160,7 @@ The final output is not just positions. Along the mean 3D waypoint sequence, the
 We then track the mean plan open loop using a lightweight controller (e.g., IK-based tracking or reactive primitives), preserving the
 sketch-implied shaping and clearances.
 </p>
+
 
 
 
