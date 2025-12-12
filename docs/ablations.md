@@ -31,10 +31,6 @@ sketch/text intent, then a dedicated pointing model (Molmo) returns precise 2D k
 the reasoning model to anchor multi-view trajectory sketches before lifting them into 3D.
 </p>
 
-
-<p class="text">
-<strong>CrossInstruct:</strong> reasoning + Molmo keypoints → keypoint-anchored 2D sketches (multi-view) → 3D lifting → executable motion.
-</p>
 <div class="stack section method-media method-media--wide">
   <img src="assets/img/systems-diagram.png"
        alt="systems diagram"
