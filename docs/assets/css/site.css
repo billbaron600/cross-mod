@@ -135,7 +135,7 @@ table{
 
 table.metrics{
   width: max-content;
-  min-width: 900px;        /* optional: slightly smaller than 980 */
+  min-width: 860px;        /* optional: slightly smaller than 980 */
   margin: 0;
 }
 
