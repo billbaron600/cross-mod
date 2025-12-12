@@ -119,8 +119,9 @@ img, video {
 /* ---------- Tables (Results) ---------- */
 .table-wrap{
   overflow-x: auto;
-  padding: 0 16px;
-  margin: 6px 0 var(--section-pad);
+  margin: 6px auto var(--section-pad);
+  padding: 0;                 /* remove the 16px that offsets centering */
+  max-width: var(--page-max); /* keep it aligned with the page */
 }
 
 /* keep global table reset, but do NOT force width 100% here */
