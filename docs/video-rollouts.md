@@ -1,11 +1,11 @@
 <link rel="stylesheet" href="assets/css/site.css">
 
 <nav class="topbar">
-  <a class="brand" href="index.html">Background</a>
   <div class="links">
+    <a class="active" href="index.html">Background</a>
     <a href="motivation.html">Motivation</a>
     <a href="method.html">Method</a>
-    <a class="active" href="video-rollouts.html">Video Rollouts</a>
+    <a href="video-rollouts.html">Video Rollouts</a>
     <a href="ablations.html">Experiments/Ablations</a>
     <a href="results-analysis.html">Results / Analysis</a>
     <a href="rl-refinement-future.html">RL Refinement / Future Work</a>
