@@ -55,7 +55,7 @@ same evaluation seeds, same downstream pipeline).
 This isolates the effect of precision coupling from the rest of the pipeline.
 </p>
 
-<h3>Baselines for context (not ablations)</h3>
+<h1>Baselines for context (not ablations)</h1>
 
 <p class="text">
 We include <strong>TD3</strong> and <strong>SAC</strong> to answer the following question:
@@ -87,7 +87,7 @@ These baselines are not meant to compete on the same supervision signal. They ar
 </ul>
 
 
-<h3>Evaluation protocol</h3>
+<h1>Evaluation protocol</h1>
 
 <p class="text">
 We evaluate <strong>generalization</strong> across randomized task instances in RLBench. All reported numbers are
