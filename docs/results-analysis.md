@@ -151,8 +151,10 @@ when the scene is visually ambiguous.
 <div class="stack section method-media method-media--wide">
   <img src="assets/img/vlm-square-on-peg.png"
        alt="VLM-Reasoning disambiguation failure on Square Block on Peg"
-       loading="lazy">
+       loading="lazy"
+       style="max-width: 700px; width: 100%; height: auto; margin: 0 auto; display: block;">
 </div>
+
 
 <ul class="text">
   <li>
