@@ -17,10 +17,7 @@
 # Results / Analysis
 
 
-<div class="section">
-  <p class="text">
-    <strong>Tasks:</strong> the 8 RLBench tasks we evaluate on.
-  </p>
+
 
   <div class="stack section method-media method-media--wide">
     <img src="assets/img/rlbench_tasks.png"
@@ -28,13 +25,10 @@
          loading="lazy">
   </div>
 
-  <p class="text" style="margin-top: 18px;">
-    <strong>Metric:</strong> task success rate (fraction of successful rollouts).
-  </p>
 
   <div class="table-wrap">
     <table class="metrics">
-      <caption>Simulation Results on RLBench (transposed)</caption>
+      <caption>Task Success Rates for the Different Methods</caption>
       <thead>
         <tr>
           <th>Task</th>
