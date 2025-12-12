@@ -76,7 +76,6 @@ These baselines are not meant to compete on the same supervision signal. They ar
   <li>
     <strong>Why both:</strong> together they bracket two common RL regimes:
     deterministic policies (TD3) versus entropy-regularized stochastic policies (SAC).
-    If both struggle, it strengthens the claim that the bottleneck is not “we picked a weak RL algorithm”, but rather sparse-reward exploration without structured guidance.
   </li>
 </ul>
 
