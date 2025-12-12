@@ -14,7 +14,7 @@
   </div>
 </nav>
 
-# Results / Analysis
+<H1> Results </H1>
 
 
 
@@ -109,19 +109,63 @@
 
 
 
-  <p class="text">
-    <em>Table I</em> in the paper (p. 6) reports these success rates across eight RLBench tasks. CrossInstruct substantially outperforms the reasoning‑only variant and pure RL on precision‑sensitive tasks (e.g., Basketball‑in‑Hoop, Push Button), where pixel‑accurate keypoints prevent small misalignments that otherwise cause failure. (§V‑E; Fig. 8 for a spatially accurate basketball rollout.) :contentReference[oaicite:13]{index=13}
-  </p>
+<H1> Analysis </H1>
 
-  <p class="text">
-    The one notable exception is Close Drawer, a short‑horizon task with modest precision needs, where exploration‑driven RL (SAC) can occasionally succeed from scratch. In scenes with bright, simple cues (e.g., square peg/hole with clear contrast), the reasoning‑only variant can be competitive, but it degrades in clutter or color ambiguity (see Fig. 9–10 for typical failure modes without precision coupling). (§V‑E.) :contentReference[oaicite:14]{index=14}
-  </p>
+<h3>Results analysis</h3>
 
-  <p class="text">
-    <strong>Generalization to the real world.</strong> CrossInstruct transfers from sketched instructions collected in different scenes to hardware with different embodiment/kinematics (Place Cups; Saw Block), honoring abstract intent like color‑matching and “repeat 3×” without closed‑loop replanning. See Fig. 11 (p. 7). (§V‑D, §V‑E.) :contentReference[oaicite:15]{index=15}
-  </p>
+<p class="text">
+CrossInstruct outperforms the VLM-Reasoning ablation on most tasks, and the gap is largest on tasks where small spatial
+misalignments are fatal.
+</p>
 
-  <p class="text">
-    <strong>RL warm‑start.</strong> Sampling from the trajectory distribution <em>p(τ)</em> provides diverse, semantically consistent demonstrations for TD3+BC. On Jenga (sparse binary reward), policies initialized from CrossInstruct achieve ~90% success within 40k steps, whereas training from scratch fails to obtain non‑zero return; on Peg, learning is significantly accelerated compared to TD3/SAC/PPO from scratch (see Fig. 12, p. 7; §V‑F). :contentReference[oaicite:16]{index=16}
-  </p>
-</div>
+<p class="text"><strong>CrossInstruct vs. VLM-Reasoning (no precision coupling)</strong></p>
+<ul class="text">
+  <li>
+    <strong>Average success rate:</strong> CrossInstruct = 0.80, VLM-Reasoning = 0.14
+    (absolute +0.66, about 5.6× higher on average).
+  </li>
+  <li>
+    <strong>Where the gap comes from:</strong> without precision coupling, trajectories are often “nearly right” but slightly offset.
+    That is enough to miss the interaction point, under-reach, or fail to make contact in precision tasks.
+  </li>
+  <li>
+    <strong>Most sensitive tasks:</strong> Basketball, Jenga, Lift Block, Put Rubbish in Bin, and Push Button all require accurate
+    contact or alignment. In these settings, a few centimeters of error can turn a correct plan into a failed rollout.
+  </li>
+</ul>
+
+<p class="text"><strong>Why pure RL does best on Close Drawer</strong></p>
+<ul class="text">
+  <li>
+    Close Drawer is relatively forgiving: it can succeed with coarse positioning and does not require tight coordination between
+    end-effector pose, orientation, and gripper timing.
+  </li>
+  <li>
+    Because the task is short-horizon and less precision-constrained, exploration-driven RL can discover a workable strategy more
+    reliably within a fixed interaction budget, even with sparse rewards.
+  </li>
+</ul>
+
+<p class="text"><strong>Why VLM-Reasoning can look better on the “colorful object” tasks</strong></p>
+<ul class="text">
+  <li>
+    VLM-Reasoning does relatively better on <strong>Square Block on Peg</strong>, <strong>Slide Block to Target</strong>, and
+    <strong>Push Button</strong> compared to the pure RL baselines.
+  </li>
+  <li>
+    These are the three tasks with highly saturated, high-contrast targets (bright red blocks or buttons, a green target).
+    Strong color cues make it easier for a vision-based model to localize “the right thing” even without explicit keypoints.
+  </li>
+  <li>
+    The same reliance on color can also be brittle: when multiple objects share similar colors, a reasoning-only model can ground to
+    the wrong instance and commit to an incorrect trajectory.
+  </li>
+</ul>
+
+<p class="text">
+Overall, the table suggests a simple pattern: <strong>language-level understanding is not the bottleneck</strong>; the bottleneck is
+<strong>pixel-level grounding</strong>. Precision coupling converts a good plan into a correctly anchored trajectory, which is what
+matters most on contact-rich manipulation.
+</p>
+
+
