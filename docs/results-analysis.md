@@ -148,6 +148,13 @@ when the scene is visually ambiguous.
 </ul>
 
 <p class="text"><strong>Concrete disambiguation failure in VLM-Reasoning (Square Block on Peg)</strong></p>
+
+<div class="stack section method-media method-media--wide">
+  <img src="assets/img/vlm-square-on-peg.png"
+       alt="VLM-Reasoning disambiguation failure on Square Block on Peg"
+       loading="lazy">
+</div>
+
 <ul class="text">
   <li>
     The qualitative example highlights the core limitation: the model can confuse <strong>which object instance is the target</strong> when multiple
