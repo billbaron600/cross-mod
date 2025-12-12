@@ -161,6 +161,12 @@ We then track the mean plan open loop using a lightweight controller (e.g., IK-b
 sketch-implied shaping and clearances.
 </p>
 
+<figure class="section method-media method-media--wide">
+  <img src="assets/img/jenga_rollout.png"
+       alt="jenga rollout"
+       loading="lazy">
+</figure>
+
 
 
 
