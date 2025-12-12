@@ -58,10 +58,35 @@ This isolates the effect of precision coupling from the rest of the pipeline.
 <h3>Baselines for context (not ablations)</h3>
 
 <p class="text">
-To contextualize instruction-driven behavior synthesis, we also report pure RL baselines—<strong>TD3</strong> and <strong>SAC</strong>—
-trained from scratch with <strong>sparse rewards</strong> and a fixed <strong>1M environment-step</strong> budget per task (no behavior-cloning priors).
-These measure how far exploration-only learning gets without cross-modal supervision.
+We include <strong>TD3</strong> and <strong>SAC</strong> to answer a simple question:
+<strong>how far can standard, exploration-driven reinforcement learning get on these RLBench tasks without any cross-modal supervision?</strong>
+These baselines are not meant to compete on the same supervision signal. They are a reference point for what “from-scratch RL” achieves under the same task and compute budget.
 </p>
+
+<ul class="text">
+  <li>
+    <strong>Why TD3:</strong> a widely used off-policy actor critic for continuous control.
+    It uses a <em>deterministic</em> policy and stabilizes learning with techniques like clipped double Q-learning and delayed policy updates.
+    This is a strong baseline for sample-efficient, exploitation-focused learning.
+  </li>
+  <li>
+    <strong>Why SAC:</strong> another widely used off-policy actor critic, but with a <em>stochastic</em> policy and entropy regularization.
+    This makes it a strong baseline for exploration and robustness, which matters when rewards are sparse.
+  </li>
+  <li>
+    <strong>Why both:</strong> together they bracket two common RL regimes:
+    deterministic policies (TD3) versus entropy-regularized stochastic policies (SAC).
+    If both struggle, it strengthens the claim that the bottleneck is not “we picked a weak RL algorithm”, but rather sparse-reward exploration without structured guidance.
+  </li>
+</ul>
+
+<p class="text"><strong>Training setup (kept intentionally standard):</strong></p>
+<ul class="text">
+  <li><strong>Reward:</strong> sparse binary success signal.</li>
+  <li><strong>Budget:</strong> 1M environment steps per task.</li>
+  <li><strong>No priors:</strong> standard implementations, without behavior cloning or cross-modal initialization.</li>
+</ul>
+
 
 <h3>Evaluation protocol</h3>
 
