@@ -16,6 +16,14 @@
 
 # Results / Analysis
 
+**Tasks:** the 8 RLBench tasks we evaluate on
+
+<div class="stack section method-media method-media--wide">
+  <img src="assets/img/rlbench_tasks.png"
+       alt="RLBench tasks"
+       loading="lazy">
+</div>
+
 **Metric:** task success rate (fraction of successful rollouts)
 
 <div class="section">
