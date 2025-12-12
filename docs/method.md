@@ -18,14 +18,17 @@
 # Method
 
 <p class="text">
-Cross-Mod turns rough <strong>sketch + text</strong> instructions into an executable robot motion.
-A human annotates two calibrated RGB camera views with freehand strokes
-(paths, arrows, “avoid” regions) and short notes
-(e.g., “grasp here”, “close gripper”, “repeat 3x”).
-We treat these annotations as lightweight “demonstrations”:
-at runtime, the system transfers the intent to a new scene,
-produces a 3D waypoint distribution plus orientation/gripper commands,
-and rolls out the mean trajectory open loop.
+Cross-Mod uses an <strong>image-native demonstration modality</strong>: a human annotates two calibrated RGB frames with freehand
+strokes (end-effector paths, arrows, “avoid” regions) and short text notes. At deployment time, these annotated frames are
+provided as <strong>in-context examples</strong> alongside a fresh two-view observation. The system composes three components that act
+in tandem: (i) a <strong>reasoning VLM</strong> that infers the intended task, decomposes it into subgoals, and proposes the
+task-critical keypoints and action schedule; (ii) a <strong>pointing VLM</strong> (Molmo) that grounds each semantic keypoint to
+<strong>pixel-accurate</strong> locations in both views; and (iii) <strong>deterministic geometry/control modules</strong> that lift the grounded
+2D plan into 3D via calibrated ray casting and execute it with standard motion-planning safeguards (e.g., singularity-aware
+repair and smoothing). This separation of semantic inference (“what”) from visuomotor localization (“where/how”) mirrors
+dual-pathway accounts of perception-for-action. Using grounded keypoints as scaffolding, the reasoning model sketches a
+time-aligned continuous end-effector path per view and predicts per-step end-effector orientations and gripper open/close
+events; the robot then rolls out the mean 3D trajectory open loop.
 </p>
 
 <div class="stack section method-media method-media--wide">
@@ -271,6 +274,7 @@ preserving the sketch-implied shaping and clearances.
        alt="jenga rollout"
        loading="lazy">
 </figure>
+
 
 
 
