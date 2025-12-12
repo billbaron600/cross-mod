@@ -32,19 +32,20 @@ the reasoning model to anchor multi-view trajectory sketches before lifting them
 </p>
 
 
-  
+<p class="text">
 <strong>CrossInstruct:</strong> reasoning + Molmo keypoints → keypoint-anchored 2D sketches (multi-view) → 3D lifting → executable motion.
-
+</p>
 <div class="stack section method-media method-media--wide">
   <img src="assets/img/systems-diagram.png"
        alt="systems diagram"
        loading="lazy">
 </div>
 
+<p class="text">
 <strong>VLM‑Reasoning (no precision coupling):</strong> remove Molmo; the reasoning model must both reason <em>and</em> draw the
 trajectories / output end-effector poses directly over images. Everything else is kept the same (same demonstrations,
 same evaluation seeds, same downstream pipeline).
-
+</p>
 <div class="stack section method-media method-media--wide">
   <img src="assets/img/main-vlm-ablation.png"
        alt="Main vlm ablation"
