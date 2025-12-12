@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="assets/css/site.css">
 
 <nav class="topbar">
-  <a class="brand active" href="index.html">Background</a>
   <div class="links">
+    <a class="active" href="index.html">Background</a>
     <a href="motivation.html">Motivation</a>
     <a href="method.html">Method</a>
     <a href="video-rollouts.html">Video Rollouts</a>
