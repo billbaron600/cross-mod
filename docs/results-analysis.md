@@ -109,8 +109,7 @@
 
 
 
-<H1> Analysis </H1>
-
+<h1>Analysis</h1>
 
 <p class="text">
 CrossInstruct outperforms the VLM-Reasoning ablation on <strong>all 8 RLBench tasks</strong>. The pattern in the table suggests that the main
@@ -118,7 +117,7 @@ difference is not “can the model plan the right behavior,” but whether it ca
 when the scene is visually ambiguous.
 </p>
 
-<p class="text"><strong>CrossInstruct vs. VLM-Reasoning (no precision coupling)</strong></p>
+<h2>CrossInstruct vs. VLM-Reasoning (no precision coupling)</h2>
 <ul class="text">
   <li>
     <strong>Average success rate:</strong> CrossInstruct = 0.80, VLM-Reasoning = 0.14 (absolute +0.66).
@@ -129,7 +128,7 @@ when the scene is visually ambiguous.
   </li>
 </ul>
 
-<p class="text"><strong>Why “bright, distinctive targets” reduce the gap</strong></p>
+<h2>Why bright, distinctive targets reduce the gap</h2>
 <ul class="text">
   <li>
     The smallest gaps tend to appear on tasks where the relevant objects are visually salient and high-contrast.
@@ -147,7 +146,7 @@ when the scene is visually ambiguous.
   </li>
 </ul>
 
-<p class="text"><strong>Concrete disambiguation failure in VLM-Reasoning (Square Block on Peg)</strong></p>
+<h2>Concrete disambiguation failure in VLM-Reasoning (Square Block on Peg)</h2>
 
 <div class="stack section method-media method-media--wide">
   <img src="assets/img/vlm-square-on-peg.png"
@@ -170,7 +169,7 @@ when the scene is visually ambiguous.
   </li>
 </ul>
 
-<p class="text"><strong>Where CrossInstruct still struggles</strong></p>
+<h2>Where CrossInstruct still struggles</h2>
 <ul class="text">
   <li>
     Even with better localization, CrossInstruct is weakest on tasks that require precise coordination between <strong>end-effector position</strong>,
@@ -178,7 +177,7 @@ when the scene is visually ambiguous.
   </li>
 </ul>
 
-<p class="text"><strong>Pure RL baselines (context)</strong></p>
+<h2>Pure RL baselines (context)</h2>
 <ul class="text">
   <li>
     TD3 and SAC are trained per task with sparse rewards, then evaluated on held-out seeds. They measure how far exploration-only learning can get without
@@ -189,6 +188,7 @@ when the scene is visually ambiguous.
     fine instance disambiguation or tight pose-plus-gripper coordination.
   </li>
 </ul>
+
 
 
 
