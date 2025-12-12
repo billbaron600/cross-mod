@@ -17,6 +17,12 @@
 
 <h1>Ablations &amp; Comparisons</h1>
 
+<div class="stack section method-media method-media--wide">
+    <img src="assets/img/rlbench_tasks.png"
+         alt="RLBench tasks"
+         loading="lazy">
+</div>
+
 <p class="text">
 This page isolates the contribution of <strong>hierarchical precision coupling</strong>—the mechanism that anchors high-level
 reasoning to <em>pixel-accurate</em> spatial grounding—by removing it and measuring what breaks.
