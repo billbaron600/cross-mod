@@ -85,14 +85,7 @@ Once keypoints are grounded to pixels in both cameras, Cross‑Mod turns those p
 and (3) execute the mean trajectory open loop with orientations and gripper events.
 </p>
 
-<figure class="section method-media method-media--wide">
-  <img src="assets/img/multiview_block_rollout.png"
-       alt="Two-view 2D trajectories, lifted 3D waypoints, and open-loop rollout"
-       loading="lazy">
-  <figcaption class="text">
-    Left: per‑view 2D end‑effector paths. Right: corresponding lifted 3D waypoints. Bottom: the resulting open‑loop rollout.
-  </figcaption>
-</figure>
+
 
 <h3>1) Continuous 2D paths (per view)</h3>
 <p class="text">
@@ -106,6 +99,15 @@ We treat each path as a corridor rather than a single pixel-wide polyline. Concr
 uncertainty region in image space. This makes the lift robust to small sketch variation, minor ambiguities, and the fact that real scenes rarely
 match an instruction example perfectly.
 </p>
+
+<figure class="section method-media method-media--wide">
+  <img src="assets/img/multi-view-continuous.png"
+       alt="Two-view 2D trajectories sketched"
+       loading="lazy">
+  <figcaption class="text">
+    Conintuous path drawn by the large model using keypoints as scaffolding
+  </figcaption>
+</figure>
 
 <h3>2) Ray casting lift: from two 2D corridors to a 3D waypoint distribution</h3>
 <p class="text">
@@ -131,12 +133,23 @@ the mean is the “centerline” trajectory we execute, and the spread captures 
 
 
 <h3>3) Open‑loop rollout with orientations + gripper actions</h3>
+
+<figure class="section method-media method-media--wide">
+  <img src="assets/img/multiview_block_rollout.png"
+       alt="Two-view 2D trajectories, lifted 3D waypoints, and open-loop rollout"
+       loading="lazy">
+  <figcaption class="text">
+    Left: per‑view 2D end‑effector paths. Right: corresponding lifted 3D waypoints. Bottom: the resulting open‑loop rollout.
+  </figcaption>
+</figure>
+
 <p class="text">
 The final output is not just positions. Along the mean 3D waypoint sequence, the reasoning model specifies end‑effector orientations
 (to align with edges, slots, pull directions, or approach normals) and discrete gripper open/close events at the appropriate times.
 We then track the mean plan open loop using a lightweight controller (e.g., IK-based tracking or reactive primitives), preserving the
 sketch-implied shaping and clearances.
 </p>
+
 
 
 
