@@ -1,15 +1,15 @@
 /* ---------- Typography, color, spacing ---------- */
 :root {
-  --gap: 22px;           /* space inside grids */
-  --page-max: 1180px;    /* shared width for all media/sections */
+  --gap: 22px;
+  --page-max: 1180px;
   --border: #e5e7eb;
   --bg-soft: #fafafa;
   --muted: #6b7280;
-  --section-pad: 28px;   /* vertical breathing room */
+  --section-pad: 28px;
 }
 
 html, body {
-  font-size: 20px;       /* larger base font */
+  font-size: 20px;
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -17,48 +17,55 @@ html, body {
   background: #fff;
 }
 
-/* ---------- Top bar (new) ---------- */
-.topbar {
+/* ---------- Top bar ---------- */
+.topbar{
   max-width: var(--page-max);
-  margin: 0 auto;
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  margin: 8px auto 12px;
+  padding: 8px 16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;   /* center the whole nav */
   gap: 12px;
-}
-.topbar .brand {
-  font-weight: 700;
-  text-decoration: none;
-  color: #111;
-}
-.topbar .links {
-  display: flex;
-  gap: 16px;
+
+  font-size: 14px;          /* smaller nav text */
 }
 
-/* Pills for all items in the topbar nav */
-.topbar .links > * {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
+.topbar .brand{
+  text-decoration:none;
+  color:#1f2937;
 
-  text-decoration: none;
-  color: #1f2937;
   border: 1px solid var(--border);
   padding: 6px 10px;
   border-radius: 999px;
+
+  font-weight: 500;         /* not always bold */
+  white-space: nowrap;
 }
 
-/* Optional: make the first item (Cross-Mod) bold */
-.topbar .links > *:first-child {
-  font-weight: 700;
+.topbar .links{
+  display:flex;
+  gap:12px;
+  flex-wrap: wrap;
+  justify-content:center;
 }
 
-.topbar .links a:hover { background: var(--bg-soft); }
+.topbar .links a{
+  text-decoration:none;
+  color:#1f2937;
+  border:1px solid var(--border);
+  padding:6px 10px;
+  border-radius:999px;
+  font-weight: 500;         /* not always bold */
+  white-space: nowrap;
+}
 
-/* Headings: larger + more whitespace to clearly separate sections */
+.topbar a:hover { background: var(--bg-soft); }
+
+/* active pill (set class="active" on the current page link) */
+.topbar a.active { font-weight: 700; }
+
+/* Headings */
 h1 {
   font-size: 2.6rem;
   margin: 1.0rem auto 1.0rem;
@@ -67,7 +74,7 @@ h1 {
 }
 h2 {
   font-size: 2.0rem;
-  margin: 2.4rem auto 1.0rem;   /* add top space before each section */
+  margin: 2.4rem auto 1.0rem;
   max-width: var(--page-max);
   padding: 0 16px;
 }
@@ -84,13 +91,13 @@ h3 {
   max-width: var(--page-max);
   margin: 0 auto;
 }
+
 .text {
   padding: 0 16px;
   color: #1f2937;
-  margin-bottom: var(--section-pad);  /* give paragraphs room below */
+  margin-bottom: var(--section-pad);
 }
 
-/* Add vertical padding around grouped media blocks */
 .section {
   padding-top: var(--section-pad);
   padding-bottom: var(--section-pad);
@@ -117,10 +124,8 @@ img, video {
 .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-/* Force the Simulation grid to be 2×N on desktop */
 .sim-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 
-/* Vertical stack for the system images (2×1) */
 .stack {
   display: grid;
   gap: var(--gap);
@@ -137,15 +142,16 @@ img, video {
   padding: 0 16px;
   margin: 6px 0 var(--section-pad);
 }
+
 table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 0; }
 .section table { max-width: var(--page-max); }
 
 table.metrics {
-  min-width: 980px;              /* single merged table needs width */
+  min-width: 980px;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 12px;
-  overflow: hidden;               /* clip to rounded corners */
+  overflow: hidden;
   font-variant-numeric: tabular-nums lining-nums;
 }
 
@@ -161,7 +167,7 @@ table.metrics thead th {
   background: var(--bg-soft);
   font-weight: 700;
   border-bottom: 1px solid var(--border);
-  position: sticky;               /* keep header visible when scrolling table */
+  position: sticky;
   top: 0;
   z-index: 1;
 }
@@ -170,13 +176,13 @@ table.metrics th,
 table.metrics td {
   padding: 12px 14px;
   border-bottom: 1px solid var(--border);
-  text-align: right;              /* numbers right-aligned by default */
+  text-align: right;
   white-space: nowrap;
 }
 
 table.metrics th:first-child,
 table.metrics td:first-child {
-  text-align: left;               /* method column */
+  text-align: left;
   width: 32%;
 }
 
@@ -186,37 +192,20 @@ table.metrics tbody tr:last-child td { border-bottom: 0; }
 /* ---------- Small screens ---------- */
 @media (max-width: 720px) {
   :root { --gap: 14px; --page-max: 95vw; --section-pad: 22px; }
+
   h1, h2, h3 { padding: 0 10px; }
 
   .grid, .stack, .text, .section { padding: 0 10px; }
   .text { margin-bottom: 20px; }
 
-  /* stack all grids on narrow screens */
   .grid-2, .sim-grid { grid-template-columns: 1fr !important; }
 
-  /* smaller heading sizes on mobile for balance */
   h1 { font-size: 2.2rem; }
   h2 { font-size: 1.7rem; }
   h3 { font-size: 1.25rem; }
-}
 
-/* --- Top bar (Code / Paper links) --- */
-.topbar{
-  max-width: var(--page-max);
-  margin: 8px auto 12px;   /* bottom margin creates space before the H1 */
-  padding: 8px 16px;
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  .topbar { padding: 8px 10px; }
 }
-.topbar .brand{
-  font-weight:700; text-decoration:none; color:#111;
-}
-.topbar .links{ display:flex; gap:12px; }
-.topbar .links a{
-  text-decoration:none; color:#1f2937;
-  border:1px solid #e5e7eb; padding:6px 10px; border-radius:999px;
-}
-.topbar .links a:hover{ background:#fafafa; }
-
 
 /* --- Centered paper header --- */
 .hero-header{
@@ -285,25 +274,22 @@ figure.section.narrow img { max-width: 680px; width: 100%; margin: 0 auto; }
 
 /* --- Method: keep figures smaller + roughly standardized --- */
 .method-media{
-  justify-items: center;   /* centers items inside .grid / .stack wrappers */
+  justify-items: center;
   align-items: start;
 }
 
-/* default: “small” method figures (good for 2-up example images) */
 .method-media img{
   width: 100%;
-  max-width: 520px;        /* caps width so grid items don’t feel huge */
-  height: 300px;           /* standardizes visual scale */
-  object-fit: contain;     /* never crop diagrams */
+  max-width: 520px;
+  height: 300px;
+  object-fit: contain;
 }
 
-/* slightly larger variant (good for system diagrams) */
 .method-media.method-media--wide img{
   max-width: 820px;
   height: 360px;
 }
 
-/* mobile: keep height bounded so images don’t dominate the page */
 @media (max-width: 720px){
   .method-media img{
     max-width: 100%;
