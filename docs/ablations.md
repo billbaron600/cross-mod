@@ -58,7 +58,7 @@ This isolates the effect of precision coupling from the rest of the pipeline.
 <h3>Baselines for context (not ablations)</h3>
 
 <p class="text">
-We include <strong>TD3</strong> and <strong>SAC</strong> to answer a simple question:
+We include <strong>TD3</strong> and <strong>SAC</strong> to answer the following question:
 <strong>how far can standard, exploration-driven reinforcement learning get on these RLBench tasks without any cross-modal supervision?</strong>
 These baselines are not meant to compete on the same supervision signal. They are a reference point for what “from-scratch RL” achieves under the same task and compute budget.
 </p>
