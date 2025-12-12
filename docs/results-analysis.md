@@ -152,18 +152,20 @@ when the scene is visually ambiguous.
   <img src="assets/img/vlm-square-on-peg.png"
        alt="VLM-Reasoning disambiguation failure on Square Block on Peg"
        loading="lazy"
-       style="max-width: 700px; width: 100%; height: auto; margin: 0 auto; display: block;">
+       style="max-width:700px;width:100%;height:auto;margin:0 auto 16px;display:block;">
 </div>
 
 
 <ul class="text">
   <li>
-    The qualitative example highlights the core limitation: the model can confuse <strong>which object instance is the target</strong> when multiple
+    This qualitative example highlights the core limitation: the model can confuse <strong>which object instance is the target</strong> when multiple
     objects share similar colors.
   </li>
   <li>
-    In the left case, the correct interaction is “move the <strong>blue square</strong> onto the <strong>red peg</strong>.” However, because there is also a
-    <strong>blue peg</strong> present, the reasoning-only variant draws a trajectory from the <strong>blue peg</strong> to the <strong>red peg</strong>.
+    In the both cases, the correct interaction is “move the <strong>blue square</strong> onto the <strong>red peg</strong>.”, and in the case on the left, it        does this correctly
+  </li>
+  <li>
+    However, in the case on the right it mistakes one of the square pegs as the target, and ends up drawing the desired path incorrectly
   </li>
   <li>
     This is not a planning error. It is a <strong>grounding and disambiguation</strong> error. The model latched onto the wrong blue object (a peg rather than
