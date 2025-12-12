@@ -128,10 +128,7 @@ the mean is the “centerline” trajectory we execute, and the spread captures 
   </figcaption>
 </figure>
 
-<p class="text">
-(Optional but useful for explanation/visualization.) After lifting, you can project the 3D mean waypoints back into both camera views to sanity-check that
-the lifted motion still follows the intended 2D geometry. This is also a good “debug view” for calibration and corridor width.
-</p>
+
 
 <h3>3) Open‑loop rollout with orientations + gripper actions</h3>
 <p class="text">
@@ -141,12 +138,8 @@ We then track the mean plan open loop using a lightweight controller (e.g., IK-b
 sketch-implied shaping and clearances.
 </p>
 
-<h3>Using the distribution (optional): diverse rollouts for RL warm‑start</h3>
-<p class="text">
-Because the lift yields a distribution, we can sample multiple intent‑consistent trajectories (not just one). These samples can be executed in simulation
-to cheaply generate varied rollouts that remain faithful to the instruction, and then used as low-cost demonstrations to warm-start downstream RL
-(or as persistent behavior-cloning regularization during RL refinement).
-</p>
+
+
 
 
 
