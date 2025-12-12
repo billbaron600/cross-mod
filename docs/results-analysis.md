@@ -26,7 +26,7 @@
   </div>
 
 
-  <div class="table-wrap">
+ <div class="table-wrap" style="display:flex;justify-content:center;">
   <table class="metrics">
     <caption>Task Success Rates for the Different Methods</caption>
     <thead>
@@ -95,13 +95,13 @@
         <td>0.05</td>
         <td>0.00</td>
       </tr>
-    <tr>
-    <td style="background:#111;color:#fff;font-weight:700;">Average</td>
-    <td style="background:#d1fae5;font-weight:700;">0.80</td>
-    <td style="background:#fee2e2;font-weight:700;">0.14</td>
-    <td style="background:#fee2e2;font-weight:700;">0.14</td>
-    <td style="background:#fee2e2;font-weight:700;">0.05</td>
-    </tr>
+      <tr>
+        <td style="background:#111;color:#fff;font-weight:700;">Average</td>
+        <td style="background:#d1fae5;font-weight:700;">0.80</td>
+        <td style="background:#fee2e2;font-weight:700;">0.14</td>
+        <td style="background:#fee2e2;font-weight:700;">0.14</td>
+        <td style="background:#fee2e2;font-weight:700;">0.05</td>
+      </tr>
     </tbody>
   </table>
 </div>
