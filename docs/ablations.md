@@ -23,22 +23,35 @@ reasoning to <em>pixel-accurate</em> spatial grounding—by removing it and meas
 
 <h3>Main ablation: removing hierarchical precision coupling</h3>
 
+
+
 <p class="text">
 <strong>CrossInstruct (full system)</strong> separates “what to do” from “where exactly.” A large reasoning VLM interprets the
 sketch/text intent, then a dedicated pointing model (Molmo) returns precise 2D keypoints. Those keypoints are fed back to
 the reasoning model to anchor multi-view trajectory sketches before lifting them into 3D.
 </p>
 
-<ul class="text">
-  <li>
-    <strong>CrossInstruct:</strong> reasoning + Molmo keypoints → keypoint-anchored 2D sketches (multi-view) → 3D lifting → executable motion.
-  </li>
-  <li>
-    <strong>VLM‑Reasoning (no precision coupling):</strong> remove Molmo; the reasoning model must both reason <em>and</em> draw the
-    trajectories / output end-effector poses directly over images. Everything else is kept the same (same demonstrations,
-    same evaluation seeds, same downstream pipeline).
-  </li>
-</ul>
+
+  
+<strong>CrossInstruct:</strong> reasoning + Molmo keypoints → keypoint-anchored 2D sketches (multi-view) → 3D lifting → executable motion.
+
+<div class="stack section method-media method-media--wide">
+  <img src="assets/img/systems-diagram.png"
+       alt="systems diagram"
+       loading="lazy">
+</div>
+
+<strong>VLM‑Reasoning (no precision coupling):</strong> remove Molmo; the reasoning model must both reason <em>and</em> draw the
+trajectories / output end-effector poses directly over images. Everything else is kept the same (same demonstrations,
+same evaluation seeds, same downstream pipeline).
+
+<div class="stack section method-media method-media--wide">
+  <img src="assets/img/main-vlm-ablation.png"
+       alt="Main vlm ablation"
+       loading="lazy">
+</div>
+
+
 
 <p class="text">
 <strong>Why this is a clean ablation:</strong> the only change is whether trajectory sketches are anchored by pixel-level keypoints.
