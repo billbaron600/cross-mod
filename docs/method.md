@@ -18,18 +18,42 @@
 # Method
 
 <p class="text">
-Cross-Mod uses an <strong>image-native demonstration modality</strong>: a human annotates two calibrated RGB frames with freehand
-strokes (end-effector paths, arrows, “avoid” regions) and short text notes. At deployment time, these annotated frames are
-provided as <strong>in-context examples</strong> alongside a fresh two-view observation. The system composes three components that act
-in tandem: (i) a <strong>reasoning VLM</strong> that infers the intended task, decomposes it into subgoals, and proposes the
-task-critical keypoints and action schedule; (ii) a <strong>pointing VLM</strong> (Molmo) that grounds each semantic keypoint to
-<strong>pixel-accurate</strong> locations in both views; and (iii) <strong>deterministic geometry/control modules</strong> that lift the grounded
-2D plan into 3D via calibrated ray casting and execute it with standard motion-planning safeguards (e.g., singularity-aware
-repair and smoothing). This separation of semantic inference (“what”) from visuomotor localization (“where/how”) mirrors
-dual-pathway accounts of perception-for-action. Using grounded keypoints as scaffolding, the reasoning model sketches a
-time-aligned continuous end-effector path per view and predicts per-step end-effector orientations and gripper open/close
-events; the robot then rolls out the mean 3D trajectory open loop.
+Cross-Mod uses an <strong>image-native demonstration modality</strong>: a user marks up camera frames directly with freehand strokes
+(end-effector paths, arrows, “avoid” regions) and short text notes. These annotated frames function as lightweight
+<strong>in-context demonstrations</strong>—they specify intent in the same coordinate system the robot perceives.
 </p>
+
+<div class="text">
+  <ul>
+    <li>
+      <strong>Reasoning model (ventral-like “what” pathway):</strong>
+      given the annotated examples, the model infers the intended task, decomposes it into subgoals, and decides
+      <em>which</em> scene elements must be localized with high precision for success. It outputs <strong>semantic keypoint
+      descriptions</strong> (e.g., “button center”, “rim edge”, “slot opening”) and a structured action plan.
+    </li>
+
+    <li>
+      <strong>Precision coupling via a pointing model (dorsal-like “where/how” pathway):</strong>
+      the semantic keypoint text produced by the reasoning model is <strong>compiled into pixels</strong>.
+      A dedicated pointing VLM (Molmo) converts each descriptor into <strong>pixel-accurate coordinates</strong> in each camera view.
+      These grounded pixels are injected back into the reasoning model as hard geometric anchors—locking high-level intent to
+      the scene with actionable precision.
+    </li>
+
+    <li>
+      <strong>Geometric lifting + execution stack:</strong>
+      grounded pixels are lifted to a 3D end-effector trajectory via multi-view ray geometry. The 3D positions are then
+      concatenated with the model’s predicted <strong>orientations</strong> and <strong>gripper open/close events</strong> to form a full
+      <strong>6-DoF</strong> end-effector plan. A motion planner/controller translates this plan into joint-space commands while
+      maintaining feasibility and avoiding pathological behaviors (e.g., near-singular configurations).
+    </li>
+  </ul>
+</div>
+
+<p class="text">
+The diagram below summarizes how these components interact to convert sketch + language demonstrations into executable robot motion.
+</p>
+
 
 <div class="stack section method-media method-media--wide">
   <img src="assets/img/systems-diagram.png"
@@ -274,6 +298,7 @@ preserving the sketch-implied shaping and clearances.
        alt="jenga rollout"
        loading="lazy">
 </figure>
+
 
 
 
