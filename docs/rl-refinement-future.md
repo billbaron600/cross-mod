@@ -36,6 +36,27 @@ On these tasks, CrossInstruct often produces rollouts that are *very close* to s
 
 This is exactly the regime where CrossInstruct becomes a strong **bootstrap** for off‑policy RL.
 
+## Failure cases are informative (near‑misses)
+
+Success rate alone can hide how close the policy is to solving the task. The videos below show typical CrossInstruct failure modes: the robot is often *nearly* correct, but fails due to small contact / alignment / timing issues that RL is well‑suited to polish.
+
+<div class="grid grid-2 section">
+  <figure>
+    <video class="video" controls playsinline preload="metadata" aria-label="Play Jenga—failure rollout (near miss)">
+      <source src="assets/video/play_jenga_fail.mp4" type="video/mp4">
+    </video>
+    <figcaption>Play Jenga — CrossInstruct failure case (near miss).</figcaption>
+  </figure>
+
+  <figure>
+    <video class="video" controls playsinline preload="metadata" aria-label="Square on peg—failure rollout (near miss)">
+      <source src="assets/video/square-on-peg-fail.mp4" type="video/mp4">
+    </video>
+    <figcaption>Square on peg — CrossInstruct failure case (near miss).</figcaption>
+  </figure>
+</div>
+
+
 ## CrossInstruct → Demo‑Augmented RL (TD3/SAC)
 
 Below is the overall refinement pipeline we use. Conceptually, it’s **replay‑buffer seeding with demonstrations**, followed by standard off‑policy RL (often with a BC‑style regularizer early in training).
@@ -92,33 +113,9 @@ With CrossInstruct initialization + off‑policy RL refinement, the policy rapid
   </figcaption>
 </figure>
 
-## Failure cases are informative (near‑misses)
 
-Success rate alone can hide how close the policy is to solving the task. The videos below show typical CrossInstruct failure modes: the robot is often *nearly* correct, but fails due to small contact / alignment / timing issues that RL is well‑suited to polish.
 
-# Video Examples
 
-<div class="grid grid-2 section">
-  <figure>
-    <video class="video" controls playsinline preload="metadata" aria-label="Play Jenga—failure rollout (near miss)">
-      <source src="assets/video/play_jenga_fail.mp4" type="video/mp4">
-    </video>
-    <figcaption>Play Jenga — CrossInstruct failure case (near miss).</figcaption>
-  </figure>
 
-  <figure>
-    <video class="video" controls playsinline preload="metadata" aria-label="Square on peg—failure rollout (near miss)">
-      <source src="assets/video/square-on-peg-fail.mp4" type="video/mp4">
-    </video>
-    <figcaption>Square on peg — CrossInstruct failure case (near miss).</figcaption>
-  </figure>
-</div>
 
-## Future work
-
-1. **Human‑in‑the‑loop corrections over execution videos.**  
-   After watching a rollout, a human can provide new cross‑modal feedback (sketch + text) to directly correct failure modes and iteratively shape behavior.
-
-2. **Reduce camera setup burden via synthetic novel views.**  
-   Integrate 3D foundation models to generate synthetic camera views from new poses, reducing the need to physically reposition cameras while maintaining multi‑view coverage.
 
