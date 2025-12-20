@@ -47,7 +47,6 @@ Success rate alone can hide how close the policy is to solving the task. The vid
     <video class="video" controls playsinline preload="metadata" aria-label="Square on peg—failure rollout (near miss)">
       <source src="assets/video/square-on-peg-fail.mp4" type="video/mp4">
     </video>
-
 </div>
 
 
