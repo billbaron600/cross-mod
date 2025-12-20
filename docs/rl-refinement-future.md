@@ -41,20 +41,16 @@ This is exactly the regime where CrossInstruct becomes a strong **bootstrap** fo
 Success rate alone can hide how close the policy is to solving the task. The videos below show typical CrossInstruct failure modes: the robot is often *nearly* correct, but fails due to small contact / alignment / timing issues that RL is well‑suited to polish.
 
 <div class="grid grid-2 section">
-  <div>
     <video class="video" controls playsinline preload="metadata" aria-label="Play Jenga—failure rollout (near miss)">
       <source src="assets/video/play_jenga_fail.mp4" type="video/mp4">
     </video>
-    <div class="caption">Play Jenga — CrossInstruct failure case (near miss).</div>
-  </div>
-
-  <div>
     <video class="video" controls playsinline preload="metadata" aria-label="Square on peg—failure rollout (near miss)">
       <source src="assets/video/square-on-peg-fail.mp4" type="video/mp4">
     </video>
-    <div class="caption">Square on peg — CrossInstruct failure case (near miss).</div>
-  </div>
+
 </div>
+
+
 
 
 ## CrossInstruct → Demo‑Augmented RL (TD3/SAC)
